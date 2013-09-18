@@ -1,32 +1,33 @@
 #ifndef _TRIE_H
 #define _TRIE_H
+#include<string>
 
-using namespace std;
- 
 class node{
           friend class trie;
           public:
-                -node();  
-                ~node(node *n); 
+                  node();
+                 ~node();
           private:
                   int words;
                   int prefixes;
                   node *edges[26];
-                  node();
 };
 
 
 class trie{  
             public:
-                    trie();
-                   -trie();
-                   ~trie(node *n);
-                    void add_word(node * n, std::string *str);
-                    int count_prefixes( node *n,std::string *str);
-                    int count_words(node *n,std::string *str);
+                     trie();
+                    ~trie();
+                   
+                    void add_word(std::string str);
+                    void add_word(node *n, std::string str);
+                    int  count_prefixes(node *n, std::string str);
+                    int  count_words(node *n, std::string str);
+                    int  find_word(std::string str);
+                    int  find_word(node *n, std::string str);
                     void initialise();
            private:
                    node *root;
-  };
+};
       
 #endif             

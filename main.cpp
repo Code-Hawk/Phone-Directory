@@ -1,18 +1,24 @@
 #include<iostream>
-#include"Contact.h"
-#include"Verifier.h"
-#include"Parser.h"
-#include"core.h"
-#include"trie.h"
+#include "Contact.h"
+#include "Verifier.h"
+#include "Parser.h"
+#include "list.h"
 using namespace std;
 
 int main()
 {  
-   trie *db = new trie();
-   db->add_word(string("yash"));
-   db->add_word(string("yashavanth")); 
-   std::cout<<" Inside Main" <<endl;
-   std::cout<< "Finding word" << db->find_word(string("y"))<< endl;
+   Contact c; 
+   #if 0 
+   list *db = new list();
+   db->add("yash");
+   db->add("yashavanth"); 
+   std::cout<<" Inside Main" << endl;
+   db->show();
+   std::cout <<" Searching for yash : Found ="<< db->search("yashava") <<endl;
+   db->del("yashava");
+   db->reverse();
+   db->show();
+   #endif
    return 0;
 }
 

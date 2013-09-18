@@ -1,32 +1,34 @@
+
 #ifndef _LIST_H 
 #define _LIST_H
+enum Bool{N_FOUND =0, FOUND};
+#include<string>
+using namespace std;
 
 
-template <class Type> 
 class node{
            friend class list;
            public:
-                  node();
+                  node(string d);
                  ~node();
            private:
-                   Type data;
-                   node<Type> *next;
+                   string data;
+                   node *next;
       };
  
 
-template <class Type >
 class list{
             public:
                            list();
                           ~list(); 
                    void    sort();
-                   void    search(Type);
+                   int    search(string);
                    void    show();
-                   void    add(Type);
-                   void    del(Type);
-                   void    append(Type);
-                   
+                   void    add(string);
+                   void    del(string);
+                   void    append(string);
+                   void    reverse();                   
            private:
-                   node<Type> *head;
+                   node *head;
   };             
 #endif                   

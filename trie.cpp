@@ -37,8 +37,8 @@ trie::trie(){
 trie::~trie(){
          if(this->root !=0){
             for(int i=0; i<26;i++){
-               if(this->root[i]!=0)
-               this->root[i].~node();        
+               if(this->root->edges[i])
+               this->root->edges[i]->~node();        
      }
    } 
 }
