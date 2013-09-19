@@ -21,9 +21,9 @@ list::list(){
 
 void list::add(string data){
          node *to_add = new node(data);
-         assert(to_add !=0);
-         to_add->next = head;
-         head = to_add;
+         assert(to_add != 0);
+         to_add->next = this->head;
+         this->head = to_add;
       }
 
 void list::del(string d){

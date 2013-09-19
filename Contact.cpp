@@ -7,6 +7,18 @@ Contact::Contact(){
 	cout << "length of email is " << email.length() << endl;
 };
 
+Contact::Contact(string fname) : f_name(fname) {
+
+	cout << "Contact(string name) Constructor " << email.length() << endl;
+}
+
+Contact::Contact(string fname, string lname,  long telp, long moble, string email_id
+ , string ltion, string group, char Abil) : f_name(fname),l_name(lname),tele(telp),mob(moble),email(email_id),loc(ltion),grp(group)
+   { 
+    
+	cout << "Member initialed Constructor " << email.length() << endl;
+} 
+
 Contact::~Contact(){
 }
 

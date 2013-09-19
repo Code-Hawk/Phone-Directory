@@ -11,6 +11,7 @@ class Verifier{
                      Boolean name_vfy(string name);
                      Boolean num_vfy(long tel);
                      Boolean email_vfy(string em);
+                     Boolean loc_vfy(string loc);
                     // Boolean abil_vfy(char ab); /* required ? */
                };
 

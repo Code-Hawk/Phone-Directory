@@ -7,6 +7,7 @@ enum Boolean{ FALSE=0, TRUE};
 class Contact{
              public:
                     Contact();
+                    Contact(string fname, string lname,  long telp, long moble, string email_id, string ltion, string group, char Ab);
                    ~Contact();
                     string get_f_name();
                     void   set_f_name(string first);

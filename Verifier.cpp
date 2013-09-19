@@ -78,6 +78,17 @@ Boolean Verifier::email_vfy(string Email){
 }
 
                       
+Boolean Verifier::loc_vfy(string loc){
+                  
+                  if(loc.length() == 0)
+                     return FALSE;
+                  std::size_t found;
+                  /* as of now supports only alphabests */
+                  found = name.find_first_not_of("abcdefghijklmnopqrstuvwxyz");
+                  if(found != std::string::npos)
+                     return FALSE;
+                  
+                  return TRUE;
     
 
 
