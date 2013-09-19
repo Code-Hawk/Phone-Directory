@@ -84,12 +84,12 @@ Boolean Verifier::loc_vfy(string loc){
                      return FALSE;
                   std::size_t found;
                   /* as of now supports only alphabests */
-                  found = name.find_first_not_of("abcdefghijklmnopqrstuvwxyz");
+                  found = loc.find_first_not_of("abcdefghijklmnopqrstuvwxyz");
                   if(found != std::string::npos)
                      return FALSE;
                   
                   return TRUE;
-    
+   } 
 
 
 
