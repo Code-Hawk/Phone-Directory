@@ -6,12 +6,12 @@ using namespace std;
 
 class Verifier{
                public:
+                     Verifier();
+                     ~Verifier();
                      Boolean name_vfy(string name);
-                     Boolean tel_vfy(long tel);
-                     Boolean mob_vfy(long mob);
+                     Boolean num_vfy(long tel);
                      Boolean email_vfy(string em);
-                     Boolean grp_vfy(string grp);
-                     Boolean abil_vfy(char ab);
+                    // Boolean abil_vfy(char ab); /* required ? */
                };
 
                      
