@@ -1,16 +1,32 @@
 #include "Contact.h"
+#include<iostream>
+#include<string>
+#include<cstddef>
+#include<algorithm>
+#include<climits>
+#include"Verifier.h"
 #include<assert.h>
-#include <iostream>
-using namespace std;
-
+#include<sstream>
+#define NO_OF_FIELDS 8
 Contact::Contact(){
-	cout << "length of email is " << email.length() << endl;
 };
 
-Contact::Contact(string fname) : f_name(fname) {
+Contact::Contact(std::vector<string> *details) {
 
-	cout << "Contact(string name) Constructor " << email.length() << endl;
-}
+              
+             assert(details->size() == NO_OF_FIELDS);
+             f_name  = details->at(0);
+             l_name  = details->at(1);
+             tele    = std::atol(details->at(2).c_str());
+             mob     = std::atol(details->at(3).c_str());
+             email   = details->at(4);
+             loc     = details->at(5);
+             grp     = details->at(6);
+             abil    = details->at(7)[0];  
+             std::cout<<" Contact constructor has been called" << std::endl; 
+
+};
+
 
 Contact::Contact(string fname, string lname,  long telp, long moble, string email_id
  , string ltion, string group, char Abil) : f_name(fname),l_name(lname),tele(telp),mob(moble),email(email_id),loc(ltion),grp(group)

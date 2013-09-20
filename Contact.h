@@ -2,12 +2,14 @@
 #define _CONTACTS_H_
 #include "core.h"
 #include <string>
+#include <vector>
 using namespace std;
 enum Boolean{ FALSE=0, TRUE};
 class Contact{
              public:
                     Contact();
                     Contact(string fname, string lname,  long telp, long moble, string email_id, string ltion, string group, char Ab);
+                    Contact(std::vector<string> *records);
                    ~Contact();
                     string get_f_name();
                     void   set_f_name(string first);

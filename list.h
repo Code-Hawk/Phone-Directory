@@ -3,16 +3,17 @@
 #define _LIST_H
 enum Bool{N_FOUND =0, FOUND};
 #include<string>
+#include"Contact.h"
 using namespace std;
 
 
 class node{
            friend class list;
            public:
-                  node(string d);
+                  node(Contact *c);
                  ~node();
            private:
-                   string data;
+                   Contact *ptr;
                    node *next;
       };
  
@@ -22,12 +23,12 @@ class list{
                            list();
                           ~list(); 
                    void    sort();
-                   int    search(string);
+                   int     search(string);
                    void    show();
-                   void    add(string);
+                   void    add(Contact *c);
                    void    del(string);
-                   void    append(string);
-                   void    reverse();                   
+                   void    append(Contact *c);
+                   void    reverse(string);                   
            private:
                    node *head;
   };             

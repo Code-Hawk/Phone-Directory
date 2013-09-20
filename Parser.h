@@ -3,13 +3,19 @@
 #include "core.h"
 #include "list.h"
 #include <fstream>
+#include "Verifier.h"
 using namespace std;
 class Parser{
             
-           public:  
+           public: 
+                  Verifier *vfy;
                   Parser(string filepath);
                   ~Parser();
-                  int read_all(list *l);
+                  int get_no_lines();
+                  void read_all(std::string *db);
+                  Boolean parse_entry(std::string);
+                 // Boolean read_one(std::string);
+                  std::vector<std::string> get_tokens(std::string);
                //   Boolean read_all();
                //   Boolean read_one(string name);
                //   Boolean delete_all();

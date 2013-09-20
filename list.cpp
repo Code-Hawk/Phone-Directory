@@ -5,8 +5,8 @@
 using namespace std;
 
 /*Node constructor */
-node::node(string d){
-     this->data = d ;
+node::node(Contact *c){
+     this->ptr = c ;
      this->next =0;
 } 
 
@@ -19,8 +19,8 @@ list::list(){
        this->head = 0;
 }
 
-void list::add(string data){
-         node *to_add = new node(data);
+void list::add(Contact *c){
+         node *to_add = new node(c);
          assert(to_add != 0);
          to_add->next = this->head;
          this->head = to_add;
@@ -71,14 +71,15 @@ void list::show(){
           std::cout<<" List is empty "<< std::endl;
           return;
        }
-
+#if 0
        while(it != NULL){
             if(it->next !=  NULL) 
-            std::cout<< it->data << "-->";
+            std::cout<< it << "-->";
             else 
             std::cout<< it->data <<std::endl;
             it = it->next;
-            }
+            
+#endif}
 }
                                 
 
@@ -91,7 +92,7 @@ int list::search(string str){
              }
 
            while(it != NULL){
-                 if((it->data.compare(str)) == 0)
+                // if((it->idata.e(str)) == 0)
                     return 0;
                  it = it->next; 
               }
