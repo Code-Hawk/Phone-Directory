@@ -8,7 +8,6 @@ using namespace std;
 class Parser{
             
            public: 
-                  Verifier *vfy;
                   Parser(string filepath);
                   ~Parser();
                   int get_no_lines();
@@ -25,7 +24,6 @@ class Parser{
           private:
                   string filepath;
                   fstream file;
-                  list *b_process;                 
             };
 
 #endif                  

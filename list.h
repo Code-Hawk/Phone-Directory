@@ -28,7 +28,7 @@ class list{
                    void    add(Contact *c);
                    void    del(string);
                    void    append(Contact *c);
-                   void    reverse(string);                   
+                   void    reverse();                   
            private:
                    node *head;
   };             

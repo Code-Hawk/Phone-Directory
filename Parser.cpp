@@ -8,7 +8,6 @@
 using namespace std;
 Parser::Parser(string path){
              this->filepath = path;
-             this->vfy = new Verifier();
                try{ 
                    if(this->filepath.empty()){
                       throw string("Null file path"); 
@@ -55,17 +54,14 @@ void  Parser::read_all(std::string *db)
 {
     if(this->file.is_open() && (!this->filepath.empty())){
           string line; // = new string();
-          int i =0;
           std::cout<< "Inside read_all " << std::endl;
           
           this->file.clear();
           this->file.seekg(0, ios::beg);
           while(getline(this->file,line)){
                	std::cout << line << endl;
-    //            if((!line.empty()) && (line.at(0) != '#')){
                  *db = line;
                  *db++;
-      //         }
    }
    
 }
@@ -103,7 +99,7 @@ std::string item;
            return items;
 }
             
-                               
+#if 0                               
 Boolean Parser::parse_entry (string line){
 
 std::vector<string> items;
@@ -156,7 +152,7 @@ std::string item;
            return TRUE;
 }
                               
-
+#endif
 
 
 

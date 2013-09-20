@@ -11,14 +11,21 @@ node::node(Contact *c){
 } 
 
 node::~node(){
-
+    delete this->ptr;
 }
 
 /* list constructor*/
 list::list(){
-       this->head = 0;
+       
+         if(this->head !=0){
+            node *temp;
+            while(this->head !=0){
+                  temp = this->head;
+                  this->head = this->head->next;  
+                  delete temp;
+             }
 }
-
+}
 void list::add(Contact *c){
          node *to_add = new node(c);
          assert(to_add != 0);
@@ -27,7 +34,7 @@ void list::add(Contact *c){
       }
 
 void list::del(string d){
- 
+#if 0 
          
          /* Empty List */
          if(head == NULL){
@@ -63,6 +70,7 @@ void list::del(string d){
 
            }
        std::cout<<"Not found in the list :" << d <<std::endl;
+#endif
  }
                            
 void list::show(){
@@ -71,15 +79,14 @@ void list::show(){
           std::cout<<" List is empty "<< std::endl;
           return;
        }
-#if 0
        while(it != NULL){
             if(it->next !=  NULL) 
-            std::cout<< it << "-->";
+            std::cout<< it->ptr->get_f_name() << "-->";
             else 
-            std::cout<< it->data <<std::endl;
+            std::cout<< it->ptr->get_f_name() <<std::endl;
             it = it->next;
             
-#endif}
+      }
 }
                                 
 
