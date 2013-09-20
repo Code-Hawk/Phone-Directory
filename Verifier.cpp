@@ -9,9 +9,21 @@
 //enum Boolean{ FALSE =0, TRUE};
 using namespace std;
 
+void Verifier::trim(string *str){
+
+string::size_type pos = str->find_last_not_of(' ');
+
+if(std::string::npos != pos )
+   str->erase(pos+1,str->length()-pos);
+
+ pos = str->find_first_not_of(' ');
+ if(pos != std::string::npos)
+    str->erase(0,pos);
+ 
+}
 
 Boolean Verifier::name_vfy(string name){
-                  
+                  trim(&name); 
                   if(name.length() == 0)
                      return FALSE;
                   std::size_t found;
@@ -24,7 +36,7 @@ Boolean Verifier::name_vfy(string name){
 }
                   
 Boolean Verifier::num_vfy(string n){
-                 
+                  trim(&n);                 
                   long num = std::atol(n.c_str());
                  if( num < 0) /* test case fails for -0 */
                     return FALSE;
@@ -36,7 +48,8 @@ Boolean Verifier::num_vfy(string n){
  }
 
 Boolean Verifier::Abil_vfy(string ab){
-                 if(ab.length()!=2)
+                 trim(&ab);
+                 if(ab.length()==0)
                    return FALSE;
        
                  int num = std::atoi(ab.c_str());
@@ -50,43 +63,43 @@ Boolean Verifier::Abil_vfy(string ab){
 }
 
 Boolean Verifier::email_vfy(string Email){
-                
+                trim(&Email);
                 if(Email.length()==0)
                    return FALSE;
                 
-        //        std::cout<<" Email is : "<< Email << std::endl; 
+                std::cout<<" Email is : "<< Email << std::endl; 
                 std::size_t found, dot_pos, at_pos;
                 found = Email.find_first_not_of("abcdefghijklmnopqrstuvwxyz1234567890@.ABCDEFGHIJKLMNOPQRSTUVWXYZ");
                 if(found != std::string::npos){
                     std::cout<<" EMail is not valid : "<< Email[found] <<std::endl;
                     return FALSE;
                   }
-      //          std::cout<<" Email Stage 1: " << Email <<std::endl;
+                std::cout<<" Email Stage 1: " << Email <<std::endl;
                 std::reverse(Email.begin(), Email.end());
 
                 dot_pos = Email.find('.'); 
                 if(dot_pos== std::string::npos || dot_pos <2)
                    return FALSE;
 
-    //            std::cout<<" Email Stage 2: " << Email <<std::endl;
+                std::cout<<" Email Stage 2: " << Email <<std::endl;
                 std::reverse(Email.begin(), Email.end());
                 at_pos = Email.find('@');
                 if(at_pos == std::string::npos)
                    return FALSE;
                
-  //              std::cout<<" Email Stage 3: " << Email <<std::endl;
+                std::cout<<" Email Stage 3: " << Email <<std::endl;
                 std::reverse(Email.begin(), Email.end());
                 if(at_pos < dot_pos)
                    return FALSE;
                 
-//                std::cout<<" Email Stage 4: " << Email <<std::endl;
+                std::cout<<" Email Stage 4: " << Email <<std::endl;
                 std::reverse(Email.begin(), Email.end());
                 return TRUE;
 }
 
                       
 Boolean Verifier::loc_vfy(string loc){
-                  
+                  trim(&loc);
                   if(loc.length() == 0){
                     std::cout<<"Location is empty " << std::endl;
                      return FALSE;
