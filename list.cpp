@@ -16,7 +16,7 @@ node::~node(){
 
 /* list constructor*/
 list::list(){
-       
+	this->head = NULL;       
 }
 void list::add(Contact *c){
          node *to_add = new node(c);
