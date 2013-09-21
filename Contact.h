@@ -1,6 +1,5 @@
 #ifndef _CONTACTS_H_
 #define _CONTACTS_H_
-#include "core.h"
 #include <string>
 #include <vector>
 using namespace std;

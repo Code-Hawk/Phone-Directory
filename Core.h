@@ -18,7 +18,7 @@ class Core {
                    Parser *psr;
                    Verifier *vfy;
                    ~Core();
-                   int interface(OPTIONS opt, void *arg);
+                   int interface(int opt, void *arg);
                    int init();
                    int reinit();
                    int no_contacts;

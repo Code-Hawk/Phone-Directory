@@ -24,13 +24,15 @@ list::list(){
                   this->head = this->head->next;  
                   delete temp;
              }
-}
+     }
 }
 void list::add(Contact *c){
          node *to_add = new node(c);
          assert(to_add != 0);
          to_add->next = this->head;
          this->head = to_add;
+         this->entries++;
+ 
       }
 
 void list::del(string d){
@@ -72,6 +74,11 @@ void list::del(string d){
        std::cout<<"Not found in the list :" << d <<std::endl;
 #endif
  }
+
+int list::size()
+{
+   return entries;
+ }
                            
 void list::show(){
        node *it = head;
@@ -80,10 +87,7 @@ void list::show(){
           return;
        }
        while(it != NULL){
-            if(it->next !=  NULL) 
-            std::cout<< it->ptr->get_f_name() << "-->";
-            else 
-            std::cout<< it->ptr->get_f_name() <<std::endl;
+            std::cout<< it->ptr->get_f_name() << std::endl;
             it = it->next;
             
       }
@@ -152,7 +156,25 @@ void list::reverse(){
           }
        std::cout<<" AT the end the head is "<< head <<std::endl;
      }                
-                                 
+
+list::~list(){
+    node *temp;
+    while(this->head !=0){
+          temp = this->head;
+          this->head = this->head->next;
+          delete(temp);
+        }
+
+}
+
+void list::clr(){
+   node *temp;
+   while(this->head !=0){
+           temp= this->head;
+           this->head = this->head->next;
+           delete(temp);
+         }
+}                                 
                                                           
              
 

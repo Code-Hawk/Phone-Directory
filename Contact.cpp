@@ -23,7 +23,7 @@ Contact::Contact(std::vector<string> *details) {
              loc     = details->at(5);
              grp     = details->at(6);
              abil    = details->at(7)[0];  
-             std::cout<<" Contact constructor has been called" << std::endl; 
+ //            std::cout<<" Contact constructor has been called" << std::endl; 
 
 };
 
@@ -32,7 +32,7 @@ Contact::Contact(string fname, string lname,  long telp, long moble, string emai
  , string ltion, string group, char Abil) : f_name(fname),l_name(lname),tele(telp),mob(moble),email(email_id),loc(ltion),grp(group)
    { 
     
-	cout << "Member initialed Constructor " << email.length() << endl;
+	//cout << "Member initialed Constructor " << email.length() << endl;
 } 
 
 Contact::~Contact(){

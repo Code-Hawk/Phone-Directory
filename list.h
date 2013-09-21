@@ -28,8 +28,11 @@ class list{
                    void    add(Contact *c);
                    void    del(string);
                    void    append(Contact *c);
-                   void    reverse();                   
+                   void    reverse();    
+                   int     size(); 
+                   void    clr();               
            private:
                    node *head;
+                   int  entries;
   };             
 #endif                   

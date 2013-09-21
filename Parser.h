@@ -1,6 +1,5 @@
 #ifndef _PARSER_H
 #define _PARSER_H
-#include "core.h"
 #include "list.h"
 #include <fstream>
 #include "Verifier.h"

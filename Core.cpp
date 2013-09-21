@@ -3,43 +3,44 @@ using namespace std;
 
 int Core::instance = 0;
 
-int Core::interface(OPTIONS opt, void *arg){
+int Core::interface(int opt, void *arg){
  
   switch(opt){
-   case LOAD:
+   case 0:
            this->init();
            return 0;
-   case RELOAD:
+   case 1: 
+            std::cout<<"Calling reinit() "<< this->no_contacts<<std::endl;
             this->reinit();   
             return 0;
-   case ADD: 
+   case 3: 
            //if(arg != NULL){
              //Contact *c = (Contact *)arg;
              return  this->add_contact(0);
              //}
            // else return -1;
-   case DEL:
+   case 4:
             //if(arg != NULL){
              // string *name = (string *)arg;
               return this->del_contact(0);
              // }
              //else return -1;  
-   case SHOW: 
+   case 2: 
              this->display_all();
              return 0;
-   case  SORT:
+   case 5:
              this->sort_contacts();
              return 0;
-   case SEARCH:
+   case 6:
               if(arg!= NULL){
                string *name = (string *)arg;
                return this->search_contact(name);
                }
               else return -1;
-   case STOP:
+   case -1:
              return this->stop();
      
-   case SIZE:
+   case 7:
              return this->get_no_contacts();
        
      default:
@@ -81,7 +82,8 @@ Core::~Core(){
 
 
 int Core::init(){
- 
+          
+       std::cout<<" Reinitialising the Database "<< std::endl;
         this->no_contacts = this->psr->get_no_lines();
     
         if(this->no_contacts < 1)
@@ -89,7 +91,7 @@ int Core::init(){
               std::cout<< "Empty file "<< std::endl;
               return -1;
             } 
-
+       std::cout<<" Reinitialising the Database "<< std::endl;
        this->raw_db = new std::string[this->no_contacts];
        assert(this->raw_db !=0); 
        std::cout<<" No of lines are " << this->no_contacts <<std::endl;
@@ -121,6 +123,7 @@ int Core::init(){
           
           }
       delete tokens;
+      std::cout<<" Successfully initialised "<< std::endl;
    return 0;
 }
 
@@ -181,16 +184,20 @@ int edit_contact(string *name){
 
 
 int Core::reinit(){
- 
+	cout << "inside Core::reinit() " << endl; 
         this->no_contacts = this->psr->get_no_lines();
-        delete(this->contacts_db);
+	cout << "Core::reinit() -- set the number of contacts " << endl; 
+        this->contacts_db->clr();
+	cout << "Core::reinit() -- deleted the contact db " << endl; 
         this->contacts_db = new list(); 
+	cout << "Core::reinit() -- new list created " << endl; 
         if(this->no_contacts < 1)
             {
               std::cout<< "Empty file "<< std::endl;
               return -1;
             } 
        delete(this->raw_db); 
+	cout << "Core::reinit() -- deleted raw db " << endl; 
        this->raw_db = new std::string[this->no_contacts];
        assert(this->raw_db !=0); 
        std::cout<<" No of lines are " << this->no_contacts <<std::endl;

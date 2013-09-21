@@ -30,7 +30,8 @@ Parser::~Parser(){
 
         this->file.close();
 }
-  #if 0                
+
+#if 0
 void  Parser::read_all(std::vector<vector<string>> **db)
 {
    if(this->file.is_open() && (!this->filepath.empty())){
@@ -49,7 +50,6 @@ void  Parser::read_all(std::vector<vector<string>> **db)
 
 }
 #endif
-
 void  Parser::read_all(std::string *db)
 {
     if(this->file.is_open() && (!this->filepath.empty())){
@@ -64,7 +64,7 @@ void  Parser::read_all(std::string *db)
                  *db++;
    }
    
-}
+  }
  return;
 }
 
@@ -73,6 +73,8 @@ int Parser::get_no_lines(){
      if((!this->file.is_open()) || (this->filepath.empty()))
          return -1;       
      
+     this->file.clear();
+     this->file.seekg(0, ios::beg);
      int count =0;
      string line;
      while(getline(this->file, line))
