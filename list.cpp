@@ -17,14 +17,6 @@ node::~node(){
 /* list constructor*/
 list::list(){
        
-         if(this->head !=0){
-            node *temp;
-            while(this->head !=0){
-                  temp = this->head;
-                  this->head = this->head->next;  
-                  delete temp;
-             }
-     }
 }
 void list::add(Contact *c){
          node *to_add = new node(c);
@@ -168,12 +160,14 @@ list::~list(){
 }
 
 void list::clr(){
-   node *temp;
+  node *temp;
+  std::cout<<"List clear initiated () "<< std::endl;
    while(this->head !=0){
            temp= this->head;
            this->head = this->head->next;
            delete(temp);
-         }
+        }
+std::cout<<" List is cleared" <<std::endl; 
 }                                 
                                                           
              
