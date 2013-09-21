@@ -17,7 +17,7 @@ int main()
    
     Core *_main = Core::get_instance("/home/yash/PhoneDirectory/Contacts.txt");
     assert(_main!=0);
-    _main->interface(1,0);
+    _main->interface(0,0);
 //    _main->interface(RELOAD,0);
 //    _main->interface(3,0);
   again:

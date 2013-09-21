@@ -188,15 +188,15 @@ int Core::reinit(){
         this->no_contacts = this->psr->get_no_lines();
 	cout << "Core::reinit() -- set the number of contacts " << endl; 
         this->contacts_db->clr();
-	cout << "Core::reinit() -- deleted the contact db " << endl; 
-        this->contacts_db = new list(); 
+	cout << "Core::reinit() -- deleted the contact db " << endl;
+        cout<< "Contacts db is corrupt "<<this->contacts_db->size()<< endl; 
 	cout << "Core::reinit() -- new list created " << endl; 
         if(this->no_contacts < 1)
             {
               std::cout<< "Empty file "<< std::endl;
               return -1;
             } 
-       delete(this->raw_db); 
+       //delete(this->raw_db); 
 	cout << "Core::reinit() -- deleted raw db " << endl; 
        this->raw_db = new std::string[this->no_contacts];
        assert(this->raw_db !=0); 
