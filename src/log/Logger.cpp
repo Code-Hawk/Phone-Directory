@@ -16,7 +16,7 @@ try{
        if(!this->logfile.is_open())
            std::cout << " Log file not opened, Check the path and permissions" << std::endl;
       else{
-        this->logfile << " log file opened and I am writing the first line " << endl;
+          this->logfile << " log file opened and I am writing the first line "<<this->logpath << endl;
         }
   } 
   }
@@ -32,7 +32,7 @@ Logger::~Logger(){
    this->logfile.close();
 }
 
-Logger * Logger::logger_get_instance( string logpath){
+Logger * Logger::logger_get_instance(string logpath){
         
          if((Logger::log_instance == 0) && (!logpath.empty())){
             Logger* log = new Logger(logpath);
@@ -43,8 +43,11 @@ Logger * Logger::logger_get_instance( string logpath){
 
  }
 
+//std::fstream& operator<<(std::fstream &fstream
 
 void Logger::log_debug(string str){
-     if(!(str.empty()))  
-     this->logfile << str;
+     if(!(str.empty())){
+     int i=10;  
+     this->logfile << str << i;
+}
 }

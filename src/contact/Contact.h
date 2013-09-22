@@ -5,6 +5,8 @@
 using namespace std;
 enum Boolean{ FALSE=0, TRUE};
 class Contact{
+             friend std::ostream& operator<<(std::ostream& os, const Contact& c);
+             friend std::ostream& operator<<(std::ostream& os, Contact *);
              public:
                     Contact();
                     Contact(string fname, string lname,  long telp, long moble, string email_id, string ltion, string group, char Ab);

@@ -24,8 +24,6 @@ Contact::Contact(std::vector<string> *details) {
              loc     = details->at(5);
              grp     = details->at(6);
              abil    = details->at(7)[0];  
-             std::cout<<" Contact constructor has been called" << std::endl; 
-
 };
 
 
@@ -68,6 +66,32 @@ void Contact::set_tele(long num){
                    this->tele = num;
                 }
 
+std::ostream& operator<<(std::ostream& op , const Contact& c){
+         op<< "First Name :" << c.f_name <<"\n";
+         op<< "Last  Name :" << c.l_name <<"\n";
+         op<< "Telphone   :" << c.tele   <<"\n";
+         op<< "Mobile     :" << c.mob   <<"\n";
+         op<< "EMail ID   :" << c.email   <<"\n";
+         op<< "Group      :" << c.loc   <<"\n";
+         op<< "Location   :" << c.grp   <<"\n";
+         op<< "Abilities  :" << c.abil   <<"\n";
+         return op;
+}
+
+
+std::ostream& operator<<(std::ostream& op , Contact* c){
+         op<< "First Name :" << c->f_name <<"\n";
+         op<< "Last  Name :" << c->l_name <<"\n";
+         op<< "Telphone   :" << c->tele   <<"\n";
+         op<< "Mobile     :" << c->mob   <<"\n";
+         op<< "EMail ID   :" << c->email   <<"\n";
+         op<< "Group      :" << c->loc   <<"\n";
+         op<< "Location   :" << c->grp   <<"\n";
+         op<< "Abilities  :" << c->abil   <<"\n";
+         return op;
+}        
+      
+ 
 
 long Contact::get_mob(){
                    return this->tele;

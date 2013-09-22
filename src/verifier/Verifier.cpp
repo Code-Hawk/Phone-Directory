@@ -81,18 +81,18 @@ Boolean Verifier::email_vfy(string Email){
                 if(Email.length()==0)
                    return FALSE;
                 
-                std::cout << " Email is : " << Email << std::endl; 
+               // std::cout << " Email is : " << Email << std::endl; 
                /* Email supports only . _ @ characters and numbers only */ 
                 size_t found = Email.find_first_not_of("_abcdefghijklmnopqrstuvwxyz1234567890@.ABCDEFGHIJKLMNOPQRSTUVWXYZ");
                 
                 if(found != std::string::npos){
-                    std::cout<<" Email is not valid : "<< Email[found] <<std::endl;
+                  //  std::cout<<" Email is not valid : "<< Email[found] <<std::endl;
                     return FALSE;
                   }
                 
                /* Count the number of @ -- only one allowed */
                 size_t at_count = std::count(Email.begin(), Email.end(), '@');
-                std::cout << " No of @'s " << at_count << std::endl;
+                //std::cout << " No of @'s " << at_count << std::endl;
                 
                 if(at_count!=1)
                    return FALSE;
@@ -103,10 +103,10 @@ Boolean Verifier::email_vfy(string Email){
                 if(token.size() < 2)
                    return FALSE;
    
-                cout << "Tokens are" <<  token.at(0)  << " " << token.at(1) <<endl;    
+                //cout << "Tokens are" <<  token.at(0)  << " " << token.at(1) <<endl;    
                 /* If either of the tokens are empty , then not valid */
                 if(token.at(1).empty()|| token.at(0).empty()){
-                   cout << " Email ends with @ -- not valid " << endl;
+                  // cout << " Email ends with @ -- not valid " << endl;
                    return FALSE;
                  }
                 /* Word after @ should not contain any special characters and numbers and Upper case letters */
@@ -115,10 +115,10 @@ Boolean Verifier::email_vfy(string Email){
                    return FALSE;
                 /* example@ddf.dfdf.dfdf.dfdf -- not suppoerted */  
                 size_t dot_cnt = std::count(token.at(1).begin(), token.at(1).end(),'.');
-                std::cout<<" No of dot counts " << dot_cnt <<std::endl;
+                //std::cout<<" No of dot counts " << dot_cnt <<std::endl;
                 
                 /* examples@.sff example@sdfdsf. are not supported */  
-                std::cout<<" Character in last position is : " << token.at(1)[token.at(1).length()-1] << std::endl;
+               // std::cout<<" Character in last position is : " << token.at(1)[token.at(1).length()-1] << std::endl;
                 if((dot_cnt!=1) || (token.at(1)[0] == '.') || (token.at(1)[token.at(1).length()-1] == '.'))
                     return FALSE;   
            

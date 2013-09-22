@@ -3,6 +3,7 @@
 #include "../contact/Contact.h" /* TODO remove specifically giveing the path */
 #include "../parser/Parser.h"
 #include "../list/List.h"
+#include "../log/Logger.h"
 #include <vector>
 #include <algorithm>
 #include "../verifier/Verifier.h"

@@ -24,10 +24,14 @@ int main()
     DEBUGGER = Logger::logger_get_instance("./log.txt");
     DEBUGGER->log_debug(" Beginning to load into DB ");
   //  core->interface(0); // no contact with Core class 
- 
+    Contact ex("yash","yash",234234,23432432,"yash","asdh","asdasd",'3');
+    cout<< &ex; 
+     
     while(1){
-  
-    	std::cout<< endl << endl << " ** Possible options are: **"<<std::endl;
+	
+	//cout << "\n\n\n\033[1;31m**Possible options are: **\033[0m\n";
+	cout << "\n\n\n\033[1;31m**Possible options are: **\033[0m\n";
+    	//std::cout<< endl << endl << " ** Possible options are: **"<<std::endl;
     	std::cout<<" REFRESH database   : 1,\t";
     	std::cout<<" SHOW all contacts  : 2,\t";
     	std::cout<<" ADD a contact      : 3,\t";

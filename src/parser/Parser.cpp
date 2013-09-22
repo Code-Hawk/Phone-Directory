@@ -62,11 +62,10 @@ void  Parser::read_all(std::string *db)
           this->file.seekg(0, ios::beg);
           while(getline(this->file,line)){
                	std::cout << line << endl;
-                 *db = line;
-                 *db++;
-   }
+                 *db++ = line;
+   	  }
    
-  }
+   }
  return;
 }
 

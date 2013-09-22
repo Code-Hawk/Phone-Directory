@@ -3,7 +3,7 @@
 using namespace std;
 
 int Core::instance = 0; /* Initialise static member for singleton */
-
+extern Logger* DEBUGGER;
 /* Constructor */
 Core::Core(const string& filepath){
                     
@@ -84,7 +84,7 @@ int Core::init(){
           
         cout << " Initialising the databases" << endl;  
         this->no_contacts = this->psr->get_no_lines();
-    
+         
         if(this->no_contacts < 1)
             {
               std::cout<< "Empty file "<< std::endl;
@@ -102,13 +102,15 @@ int Core::init(){
 
              if(!this->vfy->verify_entry(*temp, tokens)){
              std::cout<<" Verification failed for line :" <<i <<std::endl;
-             *temp++;
+             temp++;
              tokens->clear();
              continue;
            }
            
            if(tokens->size()){
             Contact *to_add = new Contact(tokens);
+            Contact ex("yash","mittul", 123,1222,"sdfds","yshsd@sads.com","sdfds",'1');
+            //std::cout << ex;
             this->contacts_db->add(to_add);
            }
           tokens->clear(); 
@@ -305,7 +307,7 @@ int Core::reinit(){
            {
              if(!this->vfy->verify_entry(*temp, tokens)){
              std::cout<<" Verification failed for line :" <<i <<std::endl;
-             *temp++;
+             temp++;
              tokens->clear();
              continue;
            }
