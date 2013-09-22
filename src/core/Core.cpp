@@ -3,7 +3,7 @@ using namespace std;
 
 int Core::instance = 0;
 
-int Core::interface(int opt, void *arg){
+int Core::interface(int opt){
  
   switch(opt){
    case 0:
@@ -14,15 +14,11 @@ int Core::interface(int opt, void *arg){
             this->reinit();   
             return 0;
    case 3: 
-           //if(arg != NULL){
-             //Contact *c = (Contact *)arg;
-             return  this->add_contact(0);
-             //}
-           // else return -1;
+             return  this->add_contact();
    case 4:
             //if(arg != NULL){
              // string *name = (string *)arg;
-              return this->del_contact(0);
+              return this->del_contact();
              // }
              //else return -1;  
    case 2: 
@@ -32,16 +28,13 @@ int Core::interface(int opt, void *arg){
              this->sort_contacts();
              return 0;
    case 6:
-              if(arg!= NULL){
-               string *name = (string *)arg;
-               return this->search_contact(name);
-               }
-              else return -1;
+              return this->search_contact();
+              
    case -1:
              return this->stop();
      
    case 7:
-             return this->get_no_contacts();
+             cout <<"Number of Contacts in Database are :" << this->get_no_contacts() <<endl;
        
      default:
            std::cout<< "Not a valid operation"<<std::endl;
@@ -82,8 +75,8 @@ Core::~Core(){
 
 
 int Core::init(){
-          
-       std::cout<<" Reinitialising the Database "<< std::endl;
+        
+        cout << " Initialising the databases" << endl;  
         this->no_contacts = this->psr->get_no_lines();
     
         if(this->no_contacts < 1)
@@ -129,8 +122,10 @@ int Core::init(){
 
 int Core::get_no_contacts(){
          
-         if(this->contacts_db !=0);
-         return this->contacts_db->size();
+         if(this->contacts_db !=0)
+           return this->contacts_db->size();
+         else 
+           return 0;
 }
 
 
@@ -149,24 +144,123 @@ int Core::reload(){
           return 0;
  }
 
-int Core::add_contact( Contact *c){
+int Core::add_contact(){
+ 
+         string read;
+         vector<string> *toAdd = new vector<string>;
+         Boolean ret=FALSE;
+         while(ret!=TRUE){
+         cout << " Enter the First name: ";
+         cin >> read;
+         ret = this->vfy->name_vfy(read);
+         if(ret == FALSE)
+            cout << "Invalid First Name" << endl;
+         } 
+         toAdd->push_back(read);    
+      
+         ret = FALSE;
+         while(ret!=TRUE){
+         cout << " Enter the Last name: ";
+         cin >> read;
+         ret = this->vfy->name_vfy(read);
+         if(ret == FALSE)
+            cout << "Invalid Last Name" << endl;
+         }
+         toAdd->push_back(read);
+     
+         ret = FALSE;
+         while(ret!=TRUE){
+         cout << " Enter the Telephone Number: ";
+         cin >> read;
+         ret = this->vfy->num_vfy(read);
+         if(ret == FALSE)
+            cout << "Invalid Telephone Number" << endl;
+         }
+         toAdd->push_back(read); 
+          
+         ret = FALSE;
+         while(ret!=TRUE){
+         cout << " Enter the Mobile Number: ";
+         cin >> read;
+         ret = this->vfy->num_vfy(read);
+         if(ret == FALSE)
+            cout << "Invalid Mobile Number" << endl;
+         }
+         toAdd->push_back(read);
 
-         std::cout<<"Add Contact is called"<< std::endl;
+         ret = FALSE;
+         while(ret!=TRUE){
+         cout << " Enter the Email id : ";
+         cin >> read;
+         ret = this->vfy->email_vfy(read);
+         if(ret == FALSE)
+            cout << "Invalid Email id" << endl;
+         }
+         toAdd->push_back(read);
+ 
+         ret = FALSE;
+         while(ret!=TRUE){
+         cout << " Enter the Location: ";
+         cin >> read;
+         ret = this->vfy->loc_vfy(read);
+         if(ret == FALSE)
+            cout << "Invalid Location" << endl;
+         }
+         toAdd->push_back(read);  
+
+         ret = FALSE;
+         while(ret!=TRUE){
+         cout << " Enter the group: ";
+         cin >> read;
+         ret = this->vfy->loc_vfy(read);
+         if(ret == FALSE)
+            cout << "Invalid group" << endl;
+         }
+         toAdd->push_back(read);
+
+         toAdd->push_back("0");
+           
+         Contact *to_add = new Contact(toAdd);
+         this->contacts_db->add(to_add);
+         cout << "Added a new Contact" <<endl;
          return 0;
 }
 
-int Core::del_contact(string *name) {
-       std::cout<<" Delete Contact is called"<< std::endl;
-       return 0;
+int Core::del_contact(){
+              
+         string read;
+         cout << " Enter the First name: ";
+         cin >> read;
+         cout<< " Delete called for name: " << read ;
+         this->contacts_db->del(read);
+         return 0;
 }
 
 void Core::sort_contacts(){
       std::cout<<" Sort_contacts called"<< std::endl;
 }
 
-int Core::search_contact(string *name){
-
-    std::cout<<" Search Contact is called" << std::endl;
+int Core::search_contact(){
+    
+    Boolean ret=FALSE;
+    string read;
+    while(ret!=TRUE){
+          cout << " Enter the Contacts First to Search: ";
+          cin >> read;
+          ret = this->vfy->name_vfy(read);
+          if(ret == FALSE)
+             cout << "Invalid First Name" << endl;
+         }
+    Contact *c = this->contacts_db->search(read);
+    if(c != NULL)
+       {
+          std::cout<<" FOUND : " << c->get_f_name() <<endl; 
+          std::cout<<" First name:" << c->get_f_name() << "  Last name: " << c->get_l_name() << "  Tel Num:" << c->get_tele() << "  Mob Num:" << c->get_mob() 
+          << "    Email id:" << c->get_email() << "    Location:" << c->get_loc() << "   Group:" << c->get_grp() << "   Abilities:" << c->get_Abils() <<endl;
+       }
+    else{
+        std::cout << read << " NOT FOUND " << endl;
+          }
     return 0;
 }
 
@@ -195,9 +289,10 @@ int Core::reinit(){
             {
               std::cout<< "Empty file "<< std::endl;
               return -1;
-            } 
-       //delete(this->raw_db); 
-	cout << "Core::reinit() -- deleted raw db " << endl; 
+            }
+       std::cout<< "raw db pointer "<< this->raw_db <<endl; 
+      // delete(this->raw_db); 
+       cout << "Core::reinit() -- deleted raw db " << endl; 
        this->raw_db = new std::string[this->no_contacts];
        assert(this->raw_db !=0); 
        std::cout<<" No of lines are " << this->no_contacts <<std::endl;

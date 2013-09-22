@@ -22,10 +22,10 @@ class List{
                            List();
                           ~List(); 
                    void    sort();
-                   int     search(string);
+                   Contact * search(string);
                    void    show();
                    void    add(Contact *c);
-                   void    del(string);
+                   int     del(string);
                    void    append(Contact *c);
                    void    reverse();    
                    int     size(); 

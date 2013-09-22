@@ -27,45 +27,47 @@ void List::add(Contact *c){
  
       }
 
-void List::del(string d){
-#if 0 
+
+int  List::del(string toDel){
          
          /* Empty List */
-         if(head == NULL){
+         if(this->head == NULL){
             std::cout<<"List is empty " << std::endl; 
-            return;
+            return -1;
            }
            
          node *it = head;
          node *prev = 0;
  
          /* First node to be deleted */
-          if((it->data.compare(d))==0){
-             std::cout<<"Deleted first node"<<std::endl;
-             head = it->next;
-             delete it;
-             return;
+           string temp = it->ptr->get_f_name();
+           if((temp.compare(toDel))==0){
+               std::cout<<"Deleted first node"<<std::endl;
+               head = it->next;
+               delete it;
+               return 0;
              }
+      
+         /* Check in the middle of the list */
+             prev = it;
+             it = it->next;
 
-         /* start from the second element */
-          prev = it;
-          it = it->next;
-
-        /* Middle element */ 
-         while(it != 0){
-             std::cout<<"Looking in the middle of the List:"<< d << std::endl; 
-               if((it->data.compare(d)) == 0){
+            temp.clear();
+            while(it != 0){
+                  std::cout<<"Looking in the middle of the list:"<< toDel <<" " << temp << std::endl; 
+                  temp = it->ptr->get_f_name();
+                  if((temp.compare(toDel)) == 0){
                      prev->next = it->next;
                      delete it;
-                     return;
-               }
-               prev = it;
-               it = it->next;
+                     return 0;
+                    }
+                  prev = it;
+                  it = it->next;
 
-           }
-       std::cout<<"Not found in the List :" << d <<std::endl;
-#endif
- }
+             }
+           std::cout<<"Not found in the list :" << toDel <<std::endl;
+           return -1;
+ }     
 
 int List::size()
 {
@@ -86,21 +88,19 @@ void List::show(){
 }
                                 
 
-int List::search(string str){
+Contact * List::search(string str){
            node *it = this->head;
-
-           if(it == NULL){
-              std::cout<<" List is empty" << std::endl;
-              return -1;
-             }
-
-           while(it != NULL){
-                // if((it->idata.e(str)) == 0)
-                    return 0;
-                 it = it->next; 
-              }
-            return -1;
-               
+           string temp; 
+          while(it!=0){
+ 
+             temp = it->ptr->get_f_name(); 
+             if((temp.compare(str))==0){
+               return it->ptr;
+               }
+             it = it->next;
+         }
+ 
+         return NULL;      
 }
 
 
@@ -167,6 +167,7 @@ void List::clr(){
            this->head = this->head->next;
            delete(temp);
         }
+    this->entries =0;
 std::cout<<" List is cleared" <<std::endl; 
 }                                 
                                                           

@@ -18,7 +18,7 @@ class Core {
                    Parser *psr;
                    Verifier *vfy;
                    ~Core();
-                   int interface(int opt, void *arg);
+                   int interface(int opt);
                    int init();
                    int reinit();
                    int no_contacts;
@@ -28,10 +28,10 @@ class Core {
                    void display_all();
                    int get_no_contacts();
                    int reload();
-                   int add_contact(Contact *);
-                   int del_contact(string *);
+                   int add_contact();
+                   int del_contact();
                    void sort_contacts();
-                   int search_contact(string *);
+                   int search_contact();
                    int stop();
                    int edit_contact(string *);  
                    Core(const string& filepath);
