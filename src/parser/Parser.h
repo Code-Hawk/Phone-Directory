@@ -1,8 +1,8 @@
 #ifndef _PARSER_H
 #define _PARSER_H
-#include "list.h"
+#include "../list/List.h"
 #include <fstream>
-#include "Verifier.h"
+#include "../verifier/Verifier.h"
 using namespace std;
 class Parser{
             

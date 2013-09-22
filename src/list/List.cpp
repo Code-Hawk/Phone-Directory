@@ -1,7 +1,7 @@
-#include<iostream>
-#include<string.h>
-#include "list.h"
-#include<assert.h>
+#include <iostream>
+#include <string.h>
+#include "List.h"
+#include <assert.h>
 using namespace std;
 
 /*Node constructor */
@@ -14,11 +14,11 @@ node::~node(){
     delete this->ptr;
 }
 
-/* list constructor*/
-list::list(){
+/* List constructor*/
+List::List(){
 	this->head = NULL;       
 }
-void list::add(Contact *c){
+void List::add(Contact *c){
          node *to_add = new node(c);
          assert(to_add != 0);
          to_add->next = this->head;
@@ -27,7 +27,7 @@ void list::add(Contact *c){
  
       }
 
-void list::del(string d){
+void List::del(string d){
 #if 0 
          
          /* Empty List */
@@ -53,7 +53,7 @@ void list::del(string d){
 
         /* Middle element */ 
          while(it != 0){
-             std::cout<<"Looking in the middle of the list:"<< d << std::endl; 
+             std::cout<<"Looking in the middle of the List:"<< d << std::endl; 
                if((it->data.compare(d)) == 0){
                      prev->next = it->next;
                      delete it;
@@ -63,16 +63,16 @@ void list::del(string d){
                it = it->next;
 
            }
-       std::cout<<"Not found in the list :" << d <<std::endl;
+       std::cout<<"Not found in the List :" << d <<std::endl;
 #endif
  }
 
-int list::size()
+int List::size()
 {
    return entries;
  }
                            
-void list::show(){
+void List::show(){
        node *it = head;
        if(head == NULL){
           std::cout<<" List is empty "<< std::endl;
@@ -86,7 +86,7 @@ void list::show(){
 }
                                 
 
-int list::search(string str){
+int List::search(string str){
            node *it = this->head;
 
            if(it == NULL){
@@ -104,9 +104,9 @@ int list::search(string str){
 }
 
 
-void list::sort(){
+void List::sort(){
           #if 0 
-            /*Simple case when list is null */
+            /*Simple case when List is null */
             if(head == 0)
                return;
 
@@ -115,13 +115,13 @@ void list::sort(){
             node *it = head;
             node *sec = 0;
 
-           /*get the number of elements in the list */
+           /*get the number of elements in the List */
             while(it->next){
                   count++;
                   it = it->next;
                   }
 
-           /* one element in the list */            
+           /* one element in the List */            
            if(count == 1)
               return;
             /* more than one element */
@@ -130,7 +130,7 @@ void list::sort(){
           }
       
 
-void list::reverse(){
+void List::reverse(){
            
       if(head == 0 || head->next ==0){
          std::cout<<"List is empty "<< std::endl;
@@ -149,7 +149,7 @@ void list::reverse(){
        std::cout<<" AT the end the head is "<< head <<std::endl;
      }                
 
-list::~list(){
+List::~List(){
     node *temp;
     while(this->head !=0){
           temp = this->head;
@@ -159,7 +159,7 @@ list::~list(){
 
 }
 
-void list::clr(){
+void List::clr(){
   node *temp;
   std::cout<<"List clear initiated () "<< std::endl;
    while(this->head !=0){

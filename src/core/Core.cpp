@@ -55,7 +55,7 @@ Core::Core(const string& filepath){
                     
                   psr = new Parser(filepath);
                   vfy = new Verifier();
-                  contacts_db = new list();
+                  contacts_db = new List();
 }
 
 Core::~Core(){
@@ -190,7 +190,7 @@ int Core::reinit(){
         this->contacts_db->clr();
 	cout << "Core::reinit() -- deleted the contact db " << endl;
         cout<< "Contacts db is corrupt "<<this->contacts_db->size()<< endl; 
-	cout << "Core::reinit() -- new list created " << endl; 
+	cout << "Core::reinit() -- new List created " << endl; 
         if(this->no_contacts < 1)
             {
               std::cout<< "Empty file "<< std::endl;

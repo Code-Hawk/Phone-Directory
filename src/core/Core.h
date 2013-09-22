@@ -1,11 +1,11 @@
 #include<iostream>
 #include<sstream>
-#include "Contact.h"
-#include "Parser.h"
-#include "list.h"
+#include "../contact/Contact.h"
+#include "../parser/Parser.h"
+#include "../list/List.h"
 #include <vector>
 #include <algorithm>
-#include "Verifier.h"
+#include "../verifier/Verifier.h"
 #include <assert.h>
 using namespace std;
 
@@ -23,7 +23,7 @@ class Core {
                    int reinit();
                    int no_contacts;
                    string *raw_db;
-                   list *contacts_db;
+                   List *contacts_db;
            private:
                    void display_all();
                    int get_no_contacts();

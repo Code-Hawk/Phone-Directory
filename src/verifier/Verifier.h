@@ -1,7 +1,7 @@
 #ifndef _VERIFIER_H_
 #define _VERIFIER_H_
-#include "Contact.h"
-#include<vector>
+#include "../contact/Contact.h"
+#include <vector>
 #define NO_OF_FIELDS 8
 using namespace std;
 class Verifier{

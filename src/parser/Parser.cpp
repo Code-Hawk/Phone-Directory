@@ -1,9 +1,9 @@
 #include "Parser.h"
-#include "list.h"
+#include "../list/List.h"
 #include "assert.h"
-#include<iostream>
-#include<vector>
-#include<sstream>
+#include <iostream>
+#include <vector>
+#include <sstream>
 #define NO_OF_FIELDS 8
 using namespace std;
 Parser::Parser(string path){

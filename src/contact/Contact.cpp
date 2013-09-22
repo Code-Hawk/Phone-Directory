@@ -1,13 +1,15 @@
 #include "Contact.h"
-#include<iostream>
-#include<string>
-#include<cstddef>
-#include<algorithm>
-#include<climits>
-#include"Verifier.h"
-#include<assert.h>
-#include<sstream>
+#include <iostream>
+#include <string>
+#include <cstddef>
+#include <algorithm>
+#include <climits>
+//#include <Verifier.h>
+#include <assert.h>
+#include <sstream>
+
 #define NO_OF_FIELDS 8
+
 Contact::Contact(){
 };
 

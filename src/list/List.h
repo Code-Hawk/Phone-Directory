@@ -1,14 +1,13 @@
-
 #ifndef _LIST_H 
 #define _LIST_H
 enum Bool{N_FOUND =0, FOUND};
-#include<string>
-#include"Contact.h"
+#include <string>
+#include "../contact/Contact.h"
 using namespace std;
 
 
 class node{
-           friend class list;
+           friend class List;
            public:
                   node(Contact *c);
                  ~node();
@@ -18,10 +17,10 @@ class node{
       };
  
 
-class list{
+class List{
             public:
-                           list();
-                          ~list(); 
+                           List();
+                          ~List(); 
                    void    sort();
                    int     search(string);
                    void    show();

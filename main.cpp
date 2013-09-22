@@ -1,15 +1,15 @@
-#include<iostream>
-#include<sstream>
-#include "Contact.h"
-#include "Parser.h"
-#include "list.h"
+#include <iostream>
+#include <sstream>
+#include "src/contact/Contact.h"
+#include "src/parser/Parser.h"
+#include "src/list/list.h"
 #include <vector>
 #include <algorithm>
-#include "Verifier.h"
+#include "src/verifier/Verifier.h"
 #include <assert.h>
-#include "Core.h"
+#include "src/core/Core.h"
 #include <locale>
-#include<string>
+#include <string>
 using namespace std;
 
 int main()
