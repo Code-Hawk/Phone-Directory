@@ -11,6 +11,7 @@ node::node(Contact *c){
 } 
 
 node::~node(){
+    if(this->ptr != NULL)
     delete this->ptr;
 }
 
@@ -152,6 +153,7 @@ void List::reverse(){
 List::~List(){
     node *temp;
     while(this->head !=0){
+          cout << " HEAD --- " << this->head << endl;
           temp = this->head;
           this->head = this->head->next;
           delete(temp);

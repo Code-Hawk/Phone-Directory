@@ -28,6 +28,7 @@ try{
 
 Logger::~Logger(){
    Logger::log_instance--;   
+   cout << " Logger: Destructor called "<< endl;
    this->logfile.close();
 }
 

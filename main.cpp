@@ -15,12 +15,13 @@ using namespace std;
 
 int main()
 {  
-   
-    Core * core = Core::get_instance("data/Contacts.txt");
+    /* Core is a singleton class */
+    Core * core = Core::Core_get_instance("data/Contacts.txt");
     assert(core!=0);
+    /* Logger is a singleton class */
     Logger *log = Logger::logger_get_instance("./log.txt");
     log->log_debug(" Beginning to load into DB ");
-    core->interface(0);
+  //  core->interface(0); // no contact with Core class 
     int option_id=0;
  
     while(option_id != -1){
@@ -44,8 +45,11 @@ int main()
        continue;
     } 
  
-   if(option_id == 0)
+   if(option_id == 0){
+     delete log;
+     delete core;
       return -1;
+ }
    
    core->interface(option_id);   
    if(option_id != 0)

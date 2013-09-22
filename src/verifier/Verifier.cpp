@@ -9,6 +9,11 @@
 //enum Boolean{ FALSE =0, TRUE};
 using namespace std;
 
+Verifier::~Verifier(){
+  cout << " Verifier: Destructor called" << endl;
+}
+
+
 void Verifier::trim(string *str){
 
 string::size_type pos = str->find_last_not_of(' ');
@@ -77,11 +82,22 @@ Boolean Verifier::email_vfy(string Email){
                // std::cout<<" Email is : "<< Email << std::endl; 
                 std::size_t found, dot_pos, at_pos;
                 found = Email.find_first_not_of("_abcdefghijklmnopqrstuvwxyz1234567890@.ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+                
                 if(found != std::string::npos){
                     std::cout<<" Email is not valid : "<< Email[found] <<std::endl;
                     return FALSE;
                   }
-               // std::cout<<" Email Stage 1: " << Email <<std::endl;
+                
+                size_t at_count = std::count(Email.begin(), Email.end(), '@');
+                if(at_count!=1)
+                   return FALSE;
+                size_t dot_count = std::count(Email.begin(), Email.end(), '.');
+                if(dot_count > 2 || dot_count < 1)
+                   return FALSE;
+                  
+                std::cout << " No of @'s " << at_count << std::endl;
+                std::vector<string> *token;
+                
                 std::reverse(Email.begin(), Email.end());
 
                 dot_pos = Email.find('.'); 
@@ -124,7 +140,8 @@ Boolean Verifier::verify_entry(std::string line, std::vector<string> *items){
               
               //assert(line.empty()!=0);
               assert(items !=0);
-              get_tokens(line, items);
+              char ch =':';
+              get_tokens(line, items,ch);
               
            if(items->size() == NO_OF_FIELDS ){
               
@@ -173,15 +190,15 @@ Boolean Verifier::verify_entry(std::string line, std::vector<string> *items){
   
               
             
-void Verifier::get_tokens (string line, std::vector<string> *items){
+void Verifier::get_tokens (string line, std::vector<string> *items, char delim){
      if(!line.empty()){
         std::stringstream ss(line);
         std::string item;
            
-            while(std::getline(ss,item,':')){
+            while(std::getline(ss,item,delim)){
                   items->push_back(item);
                  }
-}
+             }
            return;
 }   
 

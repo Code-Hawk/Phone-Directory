@@ -1,16 +1,34 @@
 #include "Core.h"
 using namespace std;
 
-int Core::instance = 0;
+int Core::instance = 0; /* Initialise static member for singleton */
+
+/* Constructor */
+Core::Core(const string& filepath){
+                    
+                  psr = new Parser(filepath);
+                  vfy = new Verifier();
+                  contacts_db = new List();
+                  init();
+}
+/* Destructor - deletes other objects */
+Core::~Core(){
+              cout <<" Core Destructor called " << endl;   
+              Core::instance--;
+              delete this->psr;
+              delete this->vfy;
+              delete this->contacts_db;
+              delete this->raw_db; /* TODO */
+        }
+
 
 int Core::interface(int opt){
  
   switch(opt){
    case 0:
-           this->init();
-           return 0;
+          return this->init();
+           
    case 1: 
-            std::cout<<"Calling reinit() "<< this->no_contacts<<std::endl;
             this->reinit();   
             return 0;
    case 3: 
@@ -43,25 +61,7 @@ int Core::interface(int opt){
 }
 }
 
-
-Core::Core(const string& filepath){
-                    
-                  psr = new Parser(filepath);
-                  vfy = new Verifier();
-                  contacts_db = new List();
-}
-
-Core::~Core(){
-                 
-              Core::instance--;
-              delete this->psr;
-              delete this->vfy;
-              delete this->contacts_db;
-              delete this->raw_db;
-        }
-
-
- Core *Core::get_instance(string file){
+Core *Core::Core_get_instance(string file){
 
                   if(Core::instance == 0 && (!file.empty())){
                     Core::instance++;
@@ -76,6 +76,11 @@ Core::~Core(){
 
 int Core::init(){
         
+         /* 
+         * 1. Executed at the startup only.
+         *  2. All the variables are set to 0.
+         */
+          
         cout << " Initialising the databases" << endl;  
         this->no_contacts = this->psr->get_no_lines();
     
@@ -84,16 +89,16 @@ int Core::init(){
               std::cout<< "Empty file "<< std::endl;
               return -1;
             } 
-       std::cout<<" Reinitialising the Database "<< std::endl;
+       
        this->raw_db = new std::string[this->no_contacts];
        assert(this->raw_db !=0); 
        std::cout<<" No of lines are " << this->no_contacts <<std::endl;
        this->psr->read_all(this->raw_db);
-       string *temp= this->raw_db;
+       string *temp = this->raw_db;
        std::vector<string> *tokens = new  std::vector<string>;
-       for(int i=0; i<this->no_contacts; i++)
-           {
-	//	     std::cout<<"String is : "<< *temp << std::endl;
+
+       for(int i=0; i<this->no_contacts; i++){
+
              if(!this->vfy->verify_entry(*temp, tokens)){
              std::cout<<" Verification failed for line :" <<i <<std::endl;
              *temp++;
@@ -102,14 +107,8 @@ int Core::init(){
            }
            
            if(tokens->size()){
-         /*  for(std::vector<string>::iterator it = tokens->begin();it != tokens->end() ; it++)
-          *     {
-	  *		 std::cout<< *it << std::endl;
-               } */
-             
             Contact *to_add = new Contact(tokens);
             this->contacts_db->add(to_add);
-             //tokens->clear(); 
            }
           tokens->clear(); 
           temp++;
@@ -117,37 +116,29 @@ int Core::init(){
           }
       delete tokens;
       std::cout<<" Successfully initialised "<< std::endl;
-   return 0;
+      return 0;
 }
 
 int Core::get_no_contacts(){
          
          if(this->contacts_db !=0)
-           return this->contacts_db->size();
+            return this->contacts_db->size();
          else 
            return 0;
 }
 
 
 void Core::display_all(){
-            
-      //      if(this->contacts_db == 0)
-        //       return;
              std::cout<<"Showing all available contacts"<< std::endl;
              this->contacts_db->show();
 }
 
 
-int Core::reload(){
- 
-          std::cout <<" Reload function called " << std::endl;
-          return 0;
- }
-
 int Core::add_contact(){
- 
+
          string read;
          vector<string> *toAdd = new vector<string>;
+
          Boolean ret=FALSE;
          while(ret!=TRUE){
          cout << " Enter the First name: ";
@@ -220,14 +211,18 @@ int Core::add_contact(){
 
          toAdd->push_back("0");
            
-         Contact *to_add = new Contact(toAdd);
-         this->contacts_db->add(to_add);
+         Contact *con = new Contact(toAdd);
+         this->contacts_db->add(con);
          cout << "Added a new Contact" <<endl;
+         delete(toAdd);
          return 0;
 }
 
+/*Delete a contact based on first name only - May be 
+ * enhance it for taking multiple arguements or
+ * other fields.
+ */
 int Core::del_contact(){
-              
          string read;
          cout << " Enter the First name: ";
          cin >> read;
@@ -236,6 +231,7 @@ int Core::del_contact(){
          return 0;
 }
 
+/* TODO implement sorting based on user input */
 void Core::sort_contacts(){
       std::cout<<" Sort_contacts called"<< std::endl;
 }
@@ -244,19 +240,22 @@ int Core::search_contact(){
     
     Boolean ret=FALSE;
     string read;
+    
+   /* not called untill a valid name is given */
     while(ret!=TRUE){
-          cout << " Enter the Contacts First to Search: ";
+          cout << " Enter the Contact's First name to search: ";
           cin >> read;
           ret = this->vfy->name_vfy(read);
           if(ret == FALSE)
              cout << "Invalid First Name" << endl;
          }
+
     Contact *c = this->contacts_db->search(read);
     if(c != NULL)
        {
           std::cout<<" FOUND : " << c->get_f_name() <<endl; 
           std::cout<<" First name:" << c->get_f_name() << "  Last name: " << c->get_l_name() << "  Tel Num:" << c->get_tele() << "  Mob Num:" << c->get_mob() 
-          << "    Email id:" << c->get_email() << "    Location:" << c->get_loc() << "   Group:" << c->get_grp() << "   Abilities:" << c->get_Abils() <<endl;
+          << "\n" << " Email id:" << c->get_email() << "    Location:" << c->get_loc() << "   Group:" << c->get_grp() << "   Abilities:" << c->get_Abils() <<endl;
        }
     else{
         std::cout << read << " NOT FOUND " << endl;
@@ -276,20 +275,22 @@ int edit_contact(string *name){
      return 0;
  }
 
-
+/* Reinitialse the database */
 int Core::reinit(){
-	cout << "inside Core::reinit() " << endl; 
-        this->no_contacts = this->psr->get_no_lines();
-	cout << "Core::reinit() -- set the number of contacts " << endl; 
-        this->contacts_db->clr();
-	cout << "Core::reinit() -- deleted the contact db " << endl;
-        cout<< "Contacts db is corrupt "<<this->contacts_db->size()<< endl; 
-	cout << "Core::reinit() -- new List created " << endl; 
-        if(this->no_contacts < 1)
+
+        /* Don't clear the present database contents
+         * untill the new database is setup
+         */
+ 
+        int n = this->psr->get_no_lines(); 
+        if(n < 1)
             {
-              std::cout<< "Empty file "<< std::endl;
+              std::cout<< "Empty file - Database Reinitialization failed"<< std::endl;
               return -1;
             }
+
+        this->no_contacts = n;
+        this->contacts_db->clr(); /*remove all the elements from list */
        std::cout<< "raw db pointer "<< this->raw_db <<endl; 
       // delete(this->raw_db); 
        cout << "Core::reinit() -- deleted raw db " << endl; 
@@ -301,7 +302,6 @@ int Core::reinit(){
        std::vector<string> *tokens = new  std::vector<string>;
        for(int i=0; i<this->no_contacts; i++)
            {
-	//	     std::cout<<"String is : "<< *temp << std::endl;
              if(!this->vfy->verify_entry(*temp, tokens)){
              std::cout<<" Verification failed for line :" <<i <<std::endl;
              *temp++;
@@ -310,14 +310,8 @@ int Core::reinit(){
            }
            
            if(tokens->size()){
-         /*  for(std::vector<string>::iterator it = tokens->begin();it != tokens->end() ; it++)
-          *     {
-	  *		 std::cout<< *it << std::endl;
-               } */
-             
             Contact *to_add = new Contact(tokens);
             this->contacts_db->add(to_add);
-             //tokens->clear(); 
            }
           tokens->clear(); 
           temp++;

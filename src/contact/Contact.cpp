@@ -38,6 +38,8 @@ Contact::Contact(string fname, string lname,  long telp, long moble, string emai
 } 
 
 Contact::~Contact(){
+
+cout << "Contact: Destructor called " << endl;
 }
 
 void Contact::set_f_name(string name){

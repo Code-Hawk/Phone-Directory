@@ -29,6 +29,7 @@ Parser::Parser(string path){
 Parser::~Parser(){
 
         this->file.close();
+        cout << " Parser : Destructor called here " << endl;
 }
 
 #if 0
