@@ -22,9 +22,8 @@ int main()
     Logger *log = Logger::logger_get_instance("./log.txt");
     log->log_debug(" Beginning to load into DB ");
   //  core->interface(0); // no contact with Core class 
-    int option_id=0;
  
-    while(option_id != -1){
+    while(1){
   
     	std::cout<< endl << endl << " ** Possible options are: **"<<std::endl;
     	std::cout<<" REFRESH database   : 1,\t";
@@ -48,7 +47,7 @@ int main()
    if(option_id == 0){
      delete log;
      delete core;
-      return -1;
+      break;
  }
    
    core->interface(option_id);   

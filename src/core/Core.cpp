@@ -18,7 +18,7 @@ Core::~Core(){
               delete this->psr;
               delete this->vfy;
               delete this->contacts_db;
-              delete this->raw_db; /* TODO */
+              delete[] this->raw_db; /* TODO */
         }
 
 
