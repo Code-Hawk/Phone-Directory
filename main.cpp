@@ -15,7 +15,7 @@ using namespace std;
 int main()
 {  
    
-    Core * core = Core::get_instance("./Contacts.txt");
+    Core * core = Core::get_instance("data/Contacts.txt");
     assert(core!=0);
     core->interface(0,0);
     int option_id=0;
