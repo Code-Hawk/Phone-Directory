@@ -14,6 +14,5 @@ class Logger{
                   string logpath;
                   fstream logfile;
             };
-
 #endif                  
                       

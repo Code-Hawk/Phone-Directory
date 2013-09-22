@@ -7,7 +7,6 @@
 //#include <Verifier.h>
 #include <assert.h>
 #include <sstream>
-
 #define NO_OF_FIELDS 8
 
 Contact::Contact(){
@@ -25,7 +24,7 @@ Contact::Contact(std::vector<string> *details) {
              loc     = details->at(5);
              grp     = details->at(6);
              abil    = details->at(7)[0];  
- //            std::cout<<" Contact constructor has been called" << std::endl; 
+             std::cout<<" Contact constructor has been called" << std::endl; 
 
 };
 

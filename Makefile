@@ -1,7 +1,7 @@
 all: phoneBook 
 
 phoneBook:
-	g++ -Wall -g main.cpp src/core/Core.cpp src/list/List.cpp src/parser/Parser.cpp src/contact/Contact.cpp src/verifier/Verifier.cpp src/log/Logger.cpp -o phoneBook.exe
+	g++ -Wall -g main.cpp src/core/Core.cpp src/list/List.cpp src/parser/Parser.cpp src/contact/Contact.cpp src/verifier/Verifier.cpp src/log/Logger.cpp -o phoneBook.exe src/globals.h
 
 clean: 
 	rm -f phoneBook.exe

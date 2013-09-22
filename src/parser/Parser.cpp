@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include "../globals.h"
 #define NO_OF_FIELDS 8
 using namespace std;
 Parser::Parser(string path){

@@ -1,4 +1,5 @@
 #include "Core.h"
+#include "../globals.h"
 using namespace std;
 
 int Core::instance = 0; /* Initialise static member for singleton */
@@ -13,7 +14,7 @@ Core::Core(const string& filepath){
 }
 /* Destructor - deletes other objects */
 Core::~Core(){
-              cout <<" Core Destructor called " << endl;   
+              DEBUGGER->log_debug(" Core Destructor called ");   
               Core::instance--;
               delete this->psr;
               delete this->vfy;

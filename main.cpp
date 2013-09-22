@@ -11,16 +11,18 @@
 #include "src/log/Logger.h"
 #include <locale>
 #include <string>
+#include "src/globals.h" 
 using namespace std;
 
+Logger* DEBUGGER; 
 int main()
 {  
     /* Core is a singleton class */
     Core * core = Core::Core_get_instance("data/Contacts.txt");
     assert(core!=0);
     /* Logger is a singleton class */
-    Logger *log = Logger::logger_get_instance("./log.txt");
-    log->log_debug(" Beginning to load into DB ");
+    DEBUGGER = Logger::logger_get_instance("./log.txt");
+    DEBUGGER->log_debug(" Beginning to load into DB ");
   //  core->interface(0); // no contact with Core class 
  
     while(1){
@@ -39,13 +41,14 @@ int main()
         std::cin>>option_id;
 	cout << endl << endl;
  
+
    if((option_id < 0) || (option_id > 7)){
        std::cout<<" Invalid option... " << std::endl;
        continue;
     } 
  
    if(option_id == 0){
-     delete log;
+     delete DEBUGGER;
      delete core;
       break;
  }
