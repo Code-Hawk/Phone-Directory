@@ -1,7 +1,6 @@
-yash : :Chowrikoppalu :-12334455 :232443543:yash.hsn@gmail.com: Sbrkn : Normal : 2
-yash :Chowrikoppalu : 12334455 :232443543:yash.hsn@gmail.com: Sbrkn : qweew : 2
-yash:chowrikoppalu:122334455 :232443543:yash.hsn@gmail.com: Sbrkn : Normal : 32
+yashav:Chowrikoppalu : 12334455 :232443543:yash.hsn@gmail.com: Sbrkn : qweew : 2
+yashavanth:chowrikoppalu:122334455 :232443543:yash.hsn@gmail.com: Sbrkn : Normal : 32
 Chowrikoppalu:yash:12334445:234234324:yashu999mce@gmail.com: New York: Special :3
 Prahanth : Yadava :4243455:6578788:Prash@mpi.org: Lucknow : Mentor : 4
-
-Prahanth  Yaashavant: Yadava :4243455:6578788:Prash@mpi.org: Lucknow : Mentor : 4
+Prahanth2: Yadava :4243455:6578788:Prash@mpi.org: Lucknow : Mentor : 4
+Thirupathi: Thirumala :4243455:6578788:Prash@mpi.org: Lucknow : Mentor : 4

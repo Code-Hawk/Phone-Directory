@@ -243,6 +243,7 @@ int Core::del_contact() {
 /* TODO implement sorting based on user input */
 void Core::sort_contacts() {
     std::cout<<" Sort_contacts called"<< std::endl;
+    this->contacts_db->sort();
 }
 
 int Core::search_contact() {

@@ -23,9 +23,9 @@ int main()
     /* Logger is a singleton class */
     DEBUGGER = Logger::logger_get_instance("./log.txt");
     DEBUGGER->log_debug(" Beginning to load into DB ");
-  //  core->interface(0); // no contact with Core class 
-    Contact ex("yash","yash",234234,23432432,"yash","asdh","asdasd",'3');
-    cout<< &ex; 
+//    core->interface(0); // no contact with Core class 
+ //   Contact ex("yash","yash",234234,23432432,"yash","asdh","asdasd",'3');
+ //   cout<< &ex; 
      
     while(1){
 	

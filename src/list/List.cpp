@@ -110,33 +110,73 @@ Contact * List::search(string str) {
     return NULL;
 }
 
+
+void List::show( node* n) {
+    node *it = n;
+    if(n == NULL) {
+        std::cout<<" List is empty "<< std::endl;
+        return;
+    }
+    while(it != NULL) {
+        std::cout<< it->ptr->get_f_name() << std::endl;
+        it = it->next;
+
+    }
+}
+
+
 /* TODO: implement sorting, should be made accept an arguemnt on which fields to sort
    Implement merge sort()
 */
+
 void List::sort() {
-#if 0
-    /*Simple case when List is null */
-    if(head == 0)
-        return;
+    head = merge_sort(head);
+}
 
-    /* as of now simple implementation */
-    int count =0;
-    node *it = head;
-    node *sec = 0;
 
-    /*get the number of elements in the List */
-    while(it->next) {
-        count++;
-        it = it->next;
+node*  List::merge_sort(node *n) {
+
+    if(n == NULL || n->next == NULL) {
+        return n;
     }
 
-    /* one element in the List */
-    if(count == 1)
-        return;
-    /* more than one element */
-    node *prev;
-#endif
+    node* fast = n;
+    node* slow = n;
+    while ((fast->next != NULL) && (fast->next->next != NULL)) {
+        std::cout<<" Moved one iteration"<<   std::endl;
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+    node *sec_half = slow->next;
+    slow->next = NULL;
+    return merge(merge_sort(n),merge_sort(sec_half));
 }
+
+node* List::merge(node* a, node* b) {
+    node* ret = new node();
+    node *temp = ret;
+
+    while(a != NULL && b != NULL) {
+        if(a->ptr->get_f_name().compare( b->ptr->get_f_name())<0)
+        {
+            ret->next = a;
+            a= a->next;
+        }
+        else {
+            ret->next = b;
+            b = b->next;
+        }
+        ret = ret->next;
+    }
+
+    ret->next = (a == NULL)? b :a;
+    return temp->next;
+}
+
+
+
+
+
 
 /* reverses the list */
 void List::reverse() {
