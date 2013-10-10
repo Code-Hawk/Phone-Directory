@@ -5,9 +5,12 @@
 #include <vector>
 #include <sstream>
 #include "../globals.h"
+#include "../log/Logger.h"
 #define NO_OF_FIELDS 8
+
 using namespace std;
 
+extern Logger* DEBUGGER;
 /* Constructor -- Throws exception if the database file path is not given */
 
 Parser::Parser(string path) {
@@ -20,14 +23,14 @@ Parser::Parser(string path) {
         else {
             this->file.open(this->filepath.c_str(), std::fstream::in | std::fstream::out);
             if(this->file.is_open()) {
-               std::cout<<" The database file is opened successfully " << std::endl;
+               DEBUGGER->log_debug(" The database file is opened successfully ");
             }
             else
-                std::cout <<"Unable to open the file "<< std::endl;
+                DEBUGGER->log_debug("Unable to open the file ");
         }
     }
     catch(string str) {
-        std::cout<< "Exception: "<< str <<std::endl;
+        DEBUGGER->log_debug( "Exception: ");
     }
 
 }
@@ -42,7 +45,7 @@ void  Parser::read_all(std::string *db)
 {
     if(this->file.is_open() && (!this->filepath.empty())) {
         string line; // = new string();
-        std::cout<< "Inside read_all " << std::endl;
+        DEBUGGER->log_debug("Inside read_all ");
 
         this->file.clear();
         this->file.seekg(0, ios::beg);

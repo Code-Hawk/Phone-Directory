@@ -8,6 +8,7 @@
 #include <algorithm>
 #include "../verifier/Verifier.h"
 #include<assert.h>
+#include<limits>
 using namespace std;
 
 /*
@@ -34,6 +35,7 @@ private:
     int reinit();
     int add_contact();
     int del_contact();
+    int edit_contact(Contact *c);
     void sort_contacts();
     int search_contact();
     int stop();

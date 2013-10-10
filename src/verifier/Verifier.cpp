@@ -7,11 +7,14 @@
 #include <assert.h>
 #include <sstream>
 #include "../globals.h"
+#include "../log/Logger.h"
+
 using namespace std;
 
+extern Logger* DEBUGGER;
 /* destructor */
 Verifier::~Verifier() {
-    cout << " Verifier: Destructor called" << endl;
+    //cout << " Verifier: Destructor called" << endl;
 }
 
 /* function to trim the strings from spaces at the beginning or
@@ -129,7 +132,7 @@ Boolean Verifier::email_vfy(string Email) {
 Boolean Verifier::loc_vfy(string loc) {
     trim(&loc);
     if(loc.length() == 0) {
-        std::cout<<"Location is empty " << std::endl;
+        DEBUGGER->log_debug ("Location is empty ");
         return FALSE;
     }
     std::size_t found;
@@ -158,39 +161,40 @@ Boolean Verifier::verify_entry(std::string line, std::vector<string> *items) {
         for( int i=0; i< 8; i++)
             trim(&items->at(i));
 
+        DEBUGGER->log_debug ("Verification started ");
         if((!this->name_vfy(items->at(0))) || (!this->name_vfy(items->at(1))))
-        {   std::cout<<" Names Verification failed"<< std::endl;
+        {    DEBUGGER->log_debug(" Names Verification failed");
             return FALSE;
         }
 
         if((!this->num_vfy(items->at(2))) || (!this->num_vfy(items->at(3))))
         {
-            std::cout<<" Numbers Verification failed"<< std::endl;
+            DEBUGGER->log_debug(" Numbers Verification failed");
             return FALSE;
         }
         if(!this->email_vfy(items->at(4)))
         {
-            std::cout<<" Email verification failed"<< std::endl;
+            DEBUGGER->log_debug(" Email verification failed");
             return FALSE;
         }
         if(!this->loc_vfy(items->at(5))) {
-            std::cout<<" location Verifiction failed"<< std::endl;
+            DEBUGGER->log_debug(" location Verifiction failed");
             return FALSE;
         }
 
         if(!this->loc_vfy(items->at(6))) {
-            std::cout<<"Group Verification failed" << std::endl;
+            DEBUGGER->log_debug("Group Verification failed");
             return FALSE;
         }
         if(!this->Abil_vfy(items->at(7))) {
-            std::cout<<"Abilities Verification failed"<< std::endl;
+            DEBUGGER->log_debug("Abilities Verification failed");
             return FALSE;
         }
 
     }
 
     else {
-        std::cout<<" Invalid number of entries "<< std::endl;
+        DEBUGGER->log_debug(" Invalid number of entries ");
         return FALSE;
     }
 

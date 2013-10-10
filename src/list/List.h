@@ -34,6 +34,7 @@ public:
     void    reverse();
     int     size();
     void    clr();
+    void    replace(Contact* c);
 private:
     node *head;
     int  entries;

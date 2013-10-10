@@ -32,7 +32,7 @@ Contact::Contact(string fname, string lname,  long telp, long moble, string emai
 
 Contact::~Contact() {
 
-    cout << "Contact: Destructor called " << endl;
+//    cout << "Contact: Destructor called " << endl;
 }
 
 /* Setter for first name */

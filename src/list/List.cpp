@@ -2,8 +2,9 @@
 #include <string.h>
 #include "List.h"
 #include <assert.h>
+#include "../log/Logger.h"
 using namespace std;
-
+extern Logger* DEBUGGER;
 /* Singly linked list class, presently works on contact object pointers only.
    TODO: reimplement as a template
 */
@@ -34,12 +35,57 @@ void List::add(Contact *c) {
 
 }
 
+
+void List::replace(Contact *c){
+    std::cout<<" Called replace here" << std::endl; 
+     node *toRep = new node(c);
+     assert(toRep != NULL);
+     node* it = this->head;
+     string tosearch = c->get_f_name();
+     string present;
+     std::cout << " Starting searching " << std::endl;   
+     if(this->head == NULL)
+        return; 
+     /* First case */
+     if(it != NULL && (tosearch.compare(it->ptr->get_f_name())==0))
+        {
+           toRep->next = it->next;
+           this->head = toRep;
+           delete it;
+           return;
+         }
+      
+      node* prev = it; 
+      it = it->next;
+      std::cout <<" Starting in the middle of the list "  << std::endl; 
+      while(it != NULL){
+               if(tosearch.compare(it->ptr->get_f_name())==0)
+                   { 
+                     std::cout<<" Found here to replace  "<< std::endl;
+                     toRep->next = it->next;
+                     std::cout<<" replace next updated " << std::endl;
+                     prev->next = toRep;
+                     std::cout <<" previous is updated " << std::endl;
+                     delete it;
+                     return;
+                   }
+              else{
+                     std::cout<<" Not found to replace " << std::endl;
+                     prev = it;
+                     it = it->next;
+                  }
+        }
+
+}
+                        
+
 /* Delete a contact using the first name as parameter */
+/* Binary search is not a good idea to search.. since we are storing as linked lists */
 int  List::del(string toDel) {
 
     /* Empty List */
     if(this->head == NULL) {
-        std::cout<<"List is empty " << std::endl;
+        std::cout<<"No contacts exists in the system " << std::endl;
         return -1;
     }
 
@@ -49,7 +95,7 @@ int  List::del(string toDel) {
     /* First node to be deleted */
     string temp = it->ptr->get_f_name();
     if((temp.compare(toDel))==0) {
-        std::cout<<"Deleted first node"<<std::endl;
+        DEBUGGER->log_debug("Deleted first node");
         head = it->next;
         delete it;
         return 0;
@@ -61,7 +107,7 @@ int  List::del(string toDel) {
 
     temp.clear();
     while(it != 0) {
-        std::cout<<"Looking in the middle of the list:"<< toDel <<" " << temp << std::endl;
+        DEBUGGER->log_debug("Looking in the middle of the list");
         temp = it->ptr->get_f_name();
         if((temp.compare(toDel)) == 0) {
             prev->next = it->next;
@@ -72,7 +118,7 @@ int  List::del(string toDel) {
         it = it->next;
 
     }
-    std::cout<<"Not found in the list :" << toDel <<std::endl;
+    std::cout<<"No Contacts found in the database "<< std::endl;
     return -1;
 }
 
@@ -84,11 +130,13 @@ int List::size()
 void List::show() {
     node *it = head;
     if(head == NULL) {
-        std::cout<<" List is empty "<< std::endl;
+        DEBUGGER->log_debug(" No Contacts in the database ");
         return;
     }
+    
+    std::cout <<"First Name  " << " Last Name" << std::endl;
     while(it != NULL) {
-        std::cout<< it->ptr->get_f_name() << std::endl;
+        std::cout<< it->ptr->get_f_name()  << "   " << it->ptr->get_l_name() << std::endl;
         it = it->next;
 
     }
@@ -114,11 +162,13 @@ Contact * List::search(string str) {
 void List::show( node* n) {
     node *it = n;
     if(n == NULL) {
-        std::cout<<" List is empty "<< std::endl;
+        std::cout<<" No Contacts to show as Database is empty "<< std::endl;
         return;
     }
+    std::cout <<" First Name  "     << " Last Name" << std::endl;
     while(it != NULL) {
         std::cout<< it->ptr->get_f_name() << std::endl;
+        
         it = it->next;
 
     }
@@ -143,7 +193,7 @@ node*  List::merge_sort(node *n) {
     node* fast = n;
     node* slow = n;
     while ((fast->next != NULL) && (fast->next->next != NULL)) {
-        std::cout<<" Moved one iteration"<<   std::endl;
+        //std::cout<<" Moved one iteration"<<   std::endl;
         fast = fast->next->next;
         slow = slow->next;
     }
@@ -182,7 +232,7 @@ node* List::merge(node* a, node* b) {
 void List::reverse() {
 
     if(head == 0 || head->next ==0) {
-        std::cout<<"List is empty "<< std::endl;
+       // std::cout<<"List is empty "<< std::endl;
         return;
     }
     node *it = head;
@@ -195,14 +245,14 @@ void List::reverse() {
         head = it;
         it = next;
     }
-    std::cout<<" AT the end the head is "<< head <<std::endl;
+   // std::cout<<" AT the end the head is "<< head <<std::endl;
 }
 
 /* Destructor, which iteratively deletes all the node and frees th space */
 List::~List() {
     node *temp;
     while(this->head !=0) {
-        cout << " HEAD --- " << this->head << endl;
+//        cout << " HEAD --- " << this->head << endl;
         temp = this->head;
         this->head = this->head->next;
         delete(temp);
@@ -213,14 +263,14 @@ List::~List() {
 /* Clears the list contents but dont destroy the list */
 void List::clr() {
     node *temp;
-    std::cout<<"List clear initiated () "<< std::endl;
+   // std::cout<<"List clear initiated () "<< std::endl;
     while(this->head !=0) {
         temp= this->head;
         this->head = this->head->next;
         delete(temp);
     }
     this->entries =0;
-    std::cout<<" List is cleared" <<std::endl;
+   // std::cout<<" List is cleared" <<std::endl;
 }
 
 

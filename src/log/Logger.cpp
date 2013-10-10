@@ -33,7 +33,7 @@ Logger::Logger(string path) {
 /*Logger desstructor -- reduce the instance variable and also, close the file. */
 Logger::~Logger() {
     Logger::log_instance--;
-    cout << " Logger: Destructor called "<< endl;
+    this->logfile << " Logger: Destructor called "<< endl;
     this->logfile.close();
 }
 
@@ -54,7 +54,6 @@ Logger * Logger::logger_get_instance(string logpath) {
 /* TODO operator <<  overloading on fstream object of the Logger class */
 void Logger::log_debug(string str) {
     if(!(str.empty())) {
-        int i=10;
-        this->logfile << str << i;
+        this->logfile << str <<endl;
     }
 }

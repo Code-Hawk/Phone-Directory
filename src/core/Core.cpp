@@ -1,6 +1,7 @@
 #include "Core.h"
 #include "../globals.h"
 using namespace std;
+#define FIELDS 7 
 
 int Core::instance = 0; /* Initialise static member for singleton */
 extern Logger* DEBUGGER;
@@ -85,18 +86,17 @@ int Core::init() {
     *  2. All the variables are set to 0.
     */
 
-    cout << " Initialising the databases" << endl;
+    DEBUGGER->log_debug("Initialising the databases");
     this->no_contacts = this->psr->get_no_lines();
 
     if(this->no_contacts < 1)
     {
-        std::cout<< "Empty file "<< std::endl;
+        DEBUGGER->log_debug("Empty file ");
         return -1;
     }
     
     this->raw_db = new std::string[this->no_contacts];
     assert(this->raw_db !=0);
-    std::cout<<" No of lines are " << this->no_contacts <<std::endl;
     this->psr->read_all(this->raw_db);
     string *temp = this->raw_db;
     std::vector<string> *tokens = new  std::vector<string>;
@@ -104,7 +104,7 @@ int Core::init() {
     for(int i=0; i<this->no_contacts; i++) {
 
         if(!this->vfy->verify_entry(*temp, tokens)) {
-            std::cout<<" Verification failed for line :" <<i <<std::endl;
+          //  std::cout<<" Verification failed for line :" <<i <<std::endl;
             temp++;
             tokens->clear();
             continue;
@@ -112,7 +112,7 @@ int Core::init() {
 
         if(tokens->size()) {
             Contact *to_add = new Contact(tokens);
-            Contact ex("yash","mittul", 123,1222,"sdfds","yshsd@sads.com","sdfds",'1');
+           // Contact ex("yash","mittul", 123,1222,"sdfds","yshsd@sads.com","sdfds",'1');
             this->contacts_db->add(to_add);
         }
         tokens->clear();
@@ -120,7 +120,7 @@ int Core::init() {
 
     }
     delete tokens;
-    std::cout<<" Successfully initialised "<< std::endl;
+    DEBUGGER->log_debug("Successfully initialised ");
     return 0;
 }
 
@@ -135,7 +135,7 @@ int Core::get_no_contacts() {
 
 /* Displays all the available contacts in the database */
 void Core::display_all() {
-    std::cout<<"Showing all available contacts"<< std::endl;
+    DEBUGGER->log_debug("Showing all available contacts");
     this->contacts_db->show();
 }
 
@@ -150,7 +150,7 @@ int Core::add_contact() {
 
     Boolean ret=FALSE;
     while(ret!=TRUE) {
-        cout << " Enter the First name: ";
+        cout << "Enter the First name: ";
         cin >> read;
         ret = this->vfy->name_vfy(read);
         if(ret == FALSE)
@@ -160,7 +160,7 @@ int Core::add_contact() {
 
     ret = FALSE;
     while(ret!=TRUE) {
-        cout << " Enter the Last name: ";
+        cout << "Enter the Last name: ";
         cin >> read;
         ret = this->vfy->name_vfy(read);
         if(ret == FALSE)
@@ -170,7 +170,7 @@ int Core::add_contact() {
 
     ret = FALSE;
     while(ret!=TRUE) {
-        cout << " Enter the Telephone Number: ";
+        cout << "Enter the Telephone Number: ";
         cin >> read;
         ret = this->vfy->num_vfy(read);
         if(ret == FALSE)
@@ -180,7 +180,7 @@ int Core::add_contact() {
 
     ret = FALSE;
     while(ret!=TRUE) {
-        cout << " Enter the Mobile Number: ";
+        cout << "Enter the Mobile Number: ";
         cin >> read;
         ret = this->vfy->num_vfy(read);
         if(ret == FALSE)
@@ -190,7 +190,7 @@ int Core::add_contact() {
 
     ret = FALSE;
     while(ret!=TRUE) {
-        cout << " Enter the Email id : ";
+        cout << "Enter the Email id : ";
         cin >> read;
         ret = this->vfy->email_vfy(read);
         if(ret == FALSE)
@@ -200,7 +200,7 @@ int Core::add_contact() {
 
     ret = FALSE;
     while(ret!=TRUE) {
-        cout << " Enter the Location: ";
+        cout << "Enter the Location: ";
         cin >> read;
         ret = this->vfy->loc_vfy(read);
         if(ret == FALSE)
@@ -210,7 +210,7 @@ int Core::add_contact() {
 
     ret = FALSE;
     while(ret!=TRUE) {
-        cout << " Enter the group: ";
+        cout << "Enter the group: ";
         cin >> read;
         ret = this->vfy->loc_vfy(read);
         if(ret == FALSE)
@@ -233,27 +233,28 @@ int Core::add_contact() {
  */
 int Core::del_contact() {
     string read;
-    cout << " Enter the First name: ";
+    cout << "Enter the First name: ";
     cin >> read;
-    cout<< " Delete called for name: " << read ;
+    //cout<< " Delete called for name: " << read ;
     this->contacts_db->del(read);
     return 0;
 }
 
 /* TODO implement sorting based on user input */
 void Core::sort_contacts() {
-    std::cout<<" Sort_contacts called"<< std::endl;
+    //std::cout<<" Sort_contacts called"<< std::endl;
     this->contacts_db->sort();
+    std::cout<<"Contacts sorting success-- > Enter option 2 to view  " << std::endl;
+    
 }
 
 int Core::search_contact() {
-
     Boolean ret=FALSE;
     string read;
     /* TODO - may be searching based on other fields ??? */
     /* not called untill a valid name is given */
     while(ret!=TRUE) {
-        cout << " Enter the Contact's First name to search: ";
+        cout << "Enter the Contact's First name to search: ";
         cin >> read;
         ret = this->vfy->name_vfy(read);
         if(ret == FALSE)
@@ -262,30 +263,37 @@ int Core::search_contact() {
 
     Contact *c = this->contacts_db->search(read);
     if(c != NULL)
-    {
-        std::cout<<" FOUND : " << c->get_f_name() <<endl;
-        std::cout<<" First name:" << c->get_f_name() << "  Last name: " << c->get_l_name() << "  Tel Num:" << c->get_tele() << "  Mob Num:" << c->get_mob()
-                 << "\n" << " Email id:" << c->get_email() << "    Location:" << c->get_loc() << "   Group:" << c->get_grp() << "   Abilities:" << c->get_Abils() <<endl;
-    }
-    else {
-        std::cout << read << " NOT FOUND " << endl;
+    {   
+      std::cout <<"Contact has been FOUND"<< std::endl; 
+      std::cout <<c ;
+      std::cout << "Want to edit ? Yes / No " << std::endl;
+      string repeat;
+        while(1){
+        std::cin >> repeat; 
+        if((repeat.compare("Yes") != 0 ) && (repeat.compare("No")!=0))
+        cout << "Invalid input.  Try again: ";
+        else
+          break;
+       }
+       
+      if(repeat.compare("Yes") == 0)
+          return this->edit_contact(c);
+      else
+         return 0;    
+   }
+   else {
+        std::cout << read << " Contact with this name not  FOUND " << endl;
     }
     return 0;
 }
 
 /*Interface to stop the Core functionality */
 int Core::stop() {
-    std::cout<<" Stop is called: Application ending "<<std::endl;
+    DEBUGGER->log_debug(" Stop is called: Application ending ");
     return -1;
 
 }
 
-/*TODO - editing the contact, needs the save feature to be enabled */
-int edit_contact(string *name) {
-
-    std::cout<<" Contact edit has been called" << std::endl;
-    return 0;
-}
 
 /* Reinitialse the database */
 int Core::reinit() {
@@ -297,7 +305,7 @@ int Core::reinit() {
     int n = this->psr->get_no_lines();
     if(n < 1)
     {
-        std::cout<< "Empty file - Database Reinitialization failed"<< std::endl;
+        DEBUGGER->log_debug("Empty file - Database Reinitialization failed");
         return -1;
     }
     
@@ -323,7 +331,7 @@ int Core::reinit() {
     for(int i=0; i<this->no_contacts; i++)
     {
         if(!this->vfy->verify_entry(*temp, tokens)) {
-            std::cout<<" Verification failed for line :" <<i <<std::endl;
+           // std::cout<<" Verification failed for line :" <<i <<std::endl;
             temp++;
             tokens->clear();
             continue;
@@ -342,10 +350,194 @@ int Core::reinit() {
 }
 
 
+int Core::edit_contact(Contact *c) {
 
+    bool fields[FIELDS];
+    for(int i=0; i < FIELDS ;i++)
+         fields[i] = false;
+    string newvalue[8];
+    
+    bool edited = false;
+    
+    repeat:
+    if(edited == false)
+    std::cout<<" Select the field to edit : First_Name 1==> \n  Last Name ==>2 \n Telephone ==>3 \n Mobile ==>4  \n Email ==>5 \n Location ==>6   Group ==>7 Quit ==>8" << std::endl;
+    else
+    std::cout<<" Select the field to edit : SAVE ==> 0 First_Name ==> 1 \n  Last Name ==>2 \n Telephone ==>3 \n Mobile ==>4  \n Email ==>5 \n Location ==>6    Group ==>7 Quit ==>8" << std::endl;
+   
+    int option; 
+    while(!(cin >> option)){
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid Field is selected, Try again: ";
+        }
+     if(option < 0 || option > 8){
+        std::cout << " Invalid field selected";
+        goto repeat;
+       }
+     else{
+     Boolean ret = FALSE;
+     string read; 
+     switch(option){
 
+    case 1:
+          {
+          ret = FALSE;
+          while(ret!=TRUE) {
+               cout << " Enter the First name: ";
+               cin >> read;
+               ret = this->vfy->name_vfy(read);
+               if(ret == FALSE)
+               cout << "Invalid First Name" << endl;
+             }
+         newvalue[0] = read ;
+         fields[0] = true;
+         edited = true;
+         break;
+          }
+ 
+    case 2:
+          {
+          Boolean ret = FALSE;
+          while(ret!=TRUE) {
+              cout << " Enter the Last name: ";
+              cin >> read;
+              ret = this->vfy->name_vfy(read);
+              if(ret == FALSE)
+                 cout << "Invalid Last Name" << endl;
+           }
+         newvalue[1] = read;
+         fields[1] = true;
+         edited = true;
+         break;
+         }
+    case 3:
+         {
+          ret = FALSE;
+          while(ret!=TRUE) {
+              cout << " Enter the Telephone Number: ";
+              cin >> read;
+              ret = this->vfy->num_vfy(read);
+              if(ret == FALSE)
+                cout << "Invalid Telephone Number" << endl;
+           }
+           newvalue[2] = read;
+           fields[2] = true;
+           edited = true;
+           break;
+         }
 
+    case 4:
+          {
+           ret = FALSE;
+           while(ret!=TRUE) {
+           cout << " Enter the Mobile Number: ";
+           cin >> read;
+           ret = this->vfy->num_vfy(read);
+           if(ret == FALSE)
+              cout << "Invalid Mobile Number" << endl;
+           }
+          newvalue[3] = read;
+          fields[3] = true;
+          edited = true;
+          break;
+         }
+    case 5:
+         {
+          ret = FALSE;
+          while(ret!=TRUE) {
+          cout << " Enter the Email id : ";
+          cin >> read;
+          ret = this->vfy->email_vfy(read);
+          if(ret == FALSE)
+             cout << "Invalid Email id" << endl;
+          }
+          newvalue[4] = read;
+          fields[4] = true;
+          edited = true;
+          break;
+         }
+    case 6:
+         {
+          ret = FALSE;
+          while(ret!=TRUE) {
+          cout << " Enter the Location: ";
+          cin >> read;
+          ret = this->vfy->loc_vfy(read);
+          if(ret == FALSE)
+          cout << "Invalid Location" << endl;
+          }
+          newvalue[5] = read;
+          fields[5] = true;
+          edited = true;
+          break;
+         }
+   case 7:
+        {
+         ret = FALSE;
+         while(ret!=TRUE) {
+         cout << " Enter the group: ";
+         cin >> read;
+         ret = this->vfy->loc_vfy(read);
+         if(ret == FALSE)
+            cout << "Invalid group" << endl;
+         }
+         newvalue[6] = read;
+         fields[6] = true;
+         edited = true;
+         break;
+        }
+   case 0:
 
+    /* Here comes the tricky part -- since C++ does not support reflection ...
+       Bad idea to add each field manually */ 
+          if(edited == false){
+             std::cout<<" No fields has been edited to save " << std::endl;
+             return 0; }
+          else{
+                if(fields[0] ==true)
+                   c->set_f_name(newvalue[0]);
+ 
+                if(fields[1] ==true)
+                   c->set_l_name(newvalue[1]);
+
+                if(fields[2] ==true){
+                  std::cout <<"Telephone number edited " << std::endl; 
+                  long num = std::atol(newvalue[2].c_str());
+                   c->set_tele(num);
+                  }
+	        if(fields[3] ==true){
+                  long num = std::atol(newvalue[3].c_str());
+	          c->set_mob(num);
+                  }
+          
+                if(fields[4] ==true)
+                   c->set_email(newvalue[4]);
+
+                if(fields[5] ==true)
+                   c->set_loc(newvalue[5]);
+                
+                if(fields[6] ==true)
+                   c->set_grp(newvalue[6]);
+                cout <<c; 
+               //this->contacts_db->replace(c);               
+               return 1;
+          
+            }
+   default:
+           {
+             std::cout<<" Invalid field selected" <<std::endl; 
+             edited = false;
+           }        
+       
+              
+
+      }
+goto repeat;
+
+}
+}
+ 
 
 
 
