@@ -10,5 +10,3 @@ structure, but which is efficient in terms of predicting the closed match contac
 The project has been going on. Many new features to be added. Also, planning to add
 a graphical interface for the same.
 
-Keep tuned!!
-
