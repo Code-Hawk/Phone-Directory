@@ -6,37 +6,39 @@ enum Bool {N_FOUND =0, FOUND};
 using namespace std;
 
 
-class node {
-    friend class List;
+class node
+{
+	friend class List;
 public:
-    node(){};
-    node(Contact *c);
-    ~node();
+	node() {};
+	node(Contact *c);
+	~node();
 private:
-    Contact *ptr;
-    node *next;
+	Contact *ptr;
+	node *next;
 };
 
 
-class List {
+class List
+{
 public:
-    List();
-    ~List();
-    void    sort();
-    node*    merge_sort(node *n);
-    node*   merge(node*, node*);
-    Contact * search(string);
-    void    show();
-    void    show(node* n);
-    void    add(Contact *c);
-    int     del(string);
-    void    append(Contact *c);
-    void    reverse();
-    int     size();
-    void    clr();
-    void    replace(Contact* c);
+	List();
+	~List();
+	void    sort();
+	node    *merge_sort(node *n);
+	node   *merge(node *, node *);
+	Contact *search(string);
+	void    show();
+	void    show(node *n);
+	void    add(Contact *c);
+	int     del(string);
+	void    append(Contact *c);
+	void    reverse();
+	int     size();
+	void    clr();
+	void    replace(Contact *c);
 private:
-    node *head;
-    int  entries;
+	node *head;
+	int  entries;
 };
 #endif
