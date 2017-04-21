@@ -1,34 +1,32 @@
 #include "Core.h"
 #include "../globals.h"
-using namespace std;
-#define FIELDS 7
 
-int Core::instance = 0; /* Initialise static member for singleton */
+#define FIELDS 7
+using namespace std;
+
+int Core::instance = 0;
 extern Logger *DEBUGGER;
-/* Constructor */
+
 Core::Core(const string &filepath)
 {
-
 	psr = new Parser(filepath);
 	vfy = new Verifier();
 	contacts_db = new List();
 	init();
 }
-/* Destructor - deletes other objects */
+
 Core::~Core()
 {
-	DEBUGGER->log_debug(" Core Destructor called ");
+	DEBUGGER->log_debug(" Core Destructor");
 	Core::instance--;
 	delete this->psr;
 	delete this->vfy;
 	delete this->contacts_db;
-	delete[] this->raw_db; /* TODO */
+	delete[] this->raw_db;
 }
 
-/* Core objects main interface to the other programs such as main() */
 int Core::interface(int opt)
 {
-
 	switch (opt) {
 
 		case 0:
@@ -58,20 +56,18 @@ int Core::interface(int opt)
 		case 7:
 			cout <<"Number of Contacts in Database are :" << this->get_no_contacts() <<endl;
 			return 0;
+
 		case -1:
 			return this->stop();
 
 		default:
 			std::cout<< "Not a valid operation"<<std::endl;
 			return -1;
-
 	}
 }
 
-/* Singleton interface */
 Core *Core::Core_get_instance(string file)
 {
-
 	if (Core::instance == 0 && (!file.empty())) {
 		Core::instance++;
 		return new Core(file);
@@ -81,15 +77,8 @@ Core *Core::Core_get_instance(string file)
 	}
 }
 
-
 int Core::init()
 {
-
-	/*
-	* 1. Executed at the startup only.
-	*  2. All the variables are set to 0.
-	*/
-
 	DEBUGGER->log_debug("Initialising the databases");
 	this->no_contacts = this->psr->get_no_lines();
 
@@ -99,15 +88,13 @@ int Core::init()
 	}
 
 	this->raw_db = new std::string[this->no_contacts];
-	assert(this->raw_db !=0);
+	assert(this->raw_db);
 	this->psr->read_all(this->raw_db);
 	string *temp = this->raw_db;
 	std::vector<string> *tokens = new  std::vector<string>;
 
-	for (int i=0; i<this->no_contacts; i++) {
-
+	for (int i = 0; i < this->no_contacts; i++) {
 		if (!this->vfy->verify_entry(*temp, tokens)) {
-			//  std::cout<<" Verification failed for line :" <<i <<std::endl;
 			temp++;
 			tokens->clear();
 			continue;
@@ -115,22 +102,19 @@ int Core::init()
 
 		if (tokens->size()) {
 			Contact *to_add = new Contact(tokens);
-			// Contact ex("yash","mittul", 123,1222,"sdfds","yshsd@sads.com","sdfds",'1');
 			this->contacts_db->add(to_add);
 		}
 		tokens->clear();
 		temp++;
-
 	}
+
 	delete tokens;
 	DEBUGGER->log_debug("Successfully initialised ");
 	return 0;
 }
 
-/* Function call to get the number of contacts in the database */
 int Core::get_no_contacts()
 {
-
 	if (this->contacts_db !=0) {
 		return this->contacts_db->size();
 	} else {
@@ -138,25 +122,19 @@ int Core::get_no_contacts()
 	}
 }
 
-/* Displays all the available contacts in the database */
 void Core::display_all()
 {
 	DEBUGGER->log_debug("Showing all available contacts");
 	this->contacts_db->show();
 }
 
-/* Function which interactively asks the user for the contact
- * details to be added and validates each of the entries, and
- * finally adds to the database
- */
 int Core::add_contact()
 {
-
 	string read;
 	vector<string> *toAdd = new vector<string>;
 
-	Boolean ret=FALSE;
-	while (ret!=TRUE) {
+	Boolean ret = FALSE;
+	while (ret != TRUE) {
 		cout << "Enter the First name: ";
 		cin >> read;
 		ret = this->vfy->name_vfy(read);
@@ -231,7 +209,6 @@ int Core::add_contact()
 		}
 	}
 	toAdd->push_back(read);
-	/* TODO at the moment capabilities is not implemented */
 	toAdd->push_back("0");
 
 	Contact *con = new Contact(toAdd);
@@ -241,27 +218,19 @@ int Core::add_contact()
 	return 0;
 }
 
-/*Delete a contact based on first name only - May be
- * enhance it for taking multiple arguements or
- * other fields.
- */
 int Core::del_contact()
 {
 	string read;
 	cout << "Enter the First name: ";
 	cin >> read;
-	//cout<< " Delete called for name: " << read ;
 	this->contacts_db->del(read);
 	return 0;
 }
 
-/* TODO implement sorting based on user input */
 void Core::sort_contacts()
 {
-	//std::cout<<" Sort_contacts called"<< std::endl;
 	this->contacts_db->sort();
 	std::cout<<"Contacts sorting success-- > Enter option 2 to view  " << std::endl;
-
 }
 
 int Core::search_contact()
@@ -305,51 +274,32 @@ int Core::search_contact()
 	return 0;
 }
 
-/*Interface to stop the Core functionality */
 int Core::stop()
 {
 	DEBUGGER->log_debug(" Stop is called: Application ending ");
 	return -1;
-
 }
 
-
-/* Reinitialse the database */
 int Core::reinit()
 {
-
-	/* Don't clear the present database contents
-	 * untill the new database is setup
-	 */
-
 	int n = this->psr->get_no_lines();
 	if (n < 1) {
 		DEBUGGER->log_debug("Empty file - Database Reinitialization failed");
 		return -1;
 	}
 
-	/* Get the number maximum number of lines in the file */
 	this->no_contacts = n;
-	this->contacts_db->clr(); /*remove all the elements from list */
-
-	/*Raw_db holds each of the lines in the file as strings,
-	  which are tokenised later */
+	this->contacts_db->clr();
 
 	this->raw_db = new std::string[this->no_contacts];
 	assert(this->raw_db !=0);
 	this->psr->read_all(this->raw_db);
 
-	string *temp= this->raw_db;
-	std::vector<string> *tokens = new  std::vector<string>;
+	string *temp = this->raw_db;
+	std::vector<string> *tokens = new std::vector<string>;
 
-	/* Iterate over each of the strings present in the raw database and
-	 * tokenise and validate them using verifier and then add to the Core's
-	 * database
-	*/
-
-	for (int i=0; i<this->no_contacts; i++) {
+	for (int i=0; i < this->no_contacts; i++) {
 		if (!this->vfy->verify_entry(*temp, tokens)) {
-			// std::cout<<" Verification failed for line :" <<i <<std::endl;
 			temp++;
 			tokens->clear();
 			continue;
@@ -361,34 +311,51 @@ int Core::reinit()
 		}
 		tokens->clear();
 		temp++;
-
 	}
+
 	delete tokens;
 	return 0;
 }
 
-
 int Core::edit_contact(Contact *c)
 {
-
+	int option;
 	bool fields[FIELDS];
+	bool edited = false;
+
 	for (int i=0; i < FIELDS ; i++) {
 		fields[i] = false;
 	}
 	string newvalue[8];
 
-	bool edited = false;
-
 repeat:
 	if (edited == false) {
-		std::cout<<" Select the field to edit : First_Name 1==> \n  Last Name ==>2 \n Telephone ==>3 \n Mobile ==>4  \n Email ==>5 \n Location ==>6   Group ==>7 Quit ==>8"
-		         << std::endl;
+		std::cout <<
+			" Select the field to edit :		\
+			\n\t First_Name ==> 1				\
+			\n\t Last Name ==> 2 				\
+			\n\t Telephone ==> 3 				\
+			\n\t Mobile ==> 4					\
+			\n\t Email ==> 5					\
+			\n\t Location ==> 6					\
+			\n\t Group ==> 7					\
+			\n\t Quit ==> 8"					\
+			<< std::endl;
 	} else {
-		std::cout<<" Select the field to edit : SAVE ==> 0 First_Name ==> 1 \n  Last Name ==>2 \n Telephone ==>3 \n Mobile ==>4  \n Email ==>5 \n Location ==>6    Group ==>7 Quit ==>8"
-		         << std::endl;
+		std::cout << 
+			" Select the field to edit :		\
+			\n\t SAVE ==> 0						\
+			\n\t First_Name ==> 1 				\
+			\n\t  Last Name ==> 2 				\
+			\n\t Telephone ==> 3 				\
+			\n\t Mobile ==> 4					\
+			\n\t Email ==> 5					\
+			\n\t Location ==> 6					\
+			\n\t Group ==> 7					\
+			\n\t Quit ==> 8"					\
+			<< std::endl;
 	}
 
-	int option;
 	while (!(cin >> option)) {
 		cin.clear();
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -400,8 +367,8 @@ repeat:
 	} else {
 		Boolean ret = FALSE;
 		string read;
-		switch (option) {
 
+		switch (option) {
 			case 1: {
 				ret = FALSE;
 				while (ret!=TRUE) {
@@ -433,6 +400,7 @@ repeat:
 				edited = true;
 				break;
 			}
+
 			case 3: {
 				ret = FALSE;
 				while (ret!=TRUE) {
@@ -464,6 +432,7 @@ repeat:
 				edited = true;
 				break;
 			}
+
 			case 5: {
 				ret = FALSE;
 				while (ret!=TRUE) {
@@ -479,6 +448,7 @@ repeat:
 				edited = true;
 				break;
 			}
+
 			case 6: {
 				ret = FALSE;
 				while (ret!=TRUE) {
@@ -494,6 +464,7 @@ repeat:
 				edited = true;
 				break;
 			}
+
 			case 7: {
 				ret = FALSE;
 				while (ret!=TRUE) {
@@ -509,8 +480,8 @@ repeat:
 				edited = true;
 				break;
 			}
-			case 0:
 
+			case 0:
 				/* Here comes the tricky part -- since C++ does not support reflection ...
 				   Bad idea to add each field manually */
 				if (edited == false) {
@@ -546,25 +517,14 @@ repeat:
 					if (fields[6] ==true) {
 						c->set_grp(newvalue[6]);
 					}
-					cout <<c;
-					//this->contacts_db->replace(c);
+					cout << c;
 					return 1;
-
 				}
 			default: {
 				std::cout<<" Invalid field selected" <<std::endl;
 				edited = false;
 			}
-
-
-
 		}
 		goto repeat;
-
 	}
 }
-
-
-
-
-

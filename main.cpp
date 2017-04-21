@@ -1,40 +1,34 @@
 #include <iostream>
 #include <sstream>
+#include <vector>
+#include <algorithm>
+#include <assert.h>
+#include <locale>
+#include <string>
+#include <limits>
+
 #include "src/contact/Contact.h"
 #include "src/parser/Parser.h"
 #include "src/list/List.h"
-#include <vector>
-#include <algorithm>
 #include "src/verifier/Verifier.h"
-#include <assert.h>
 #include "src/core/Core.h"
 #include "src/log/Logger.h"
-#include <locale>
-#include <string>
-//#include "src/globals.h"
-#include <limits>
 using namespace std;
 
 Logger *DEBUGGER;
 int main()
 {
-
-
+	int option_id = 0;
 	DEBUGGER = Logger::logger_get_instance("./log.txt");
 	DEBUGGER->log_debug(" Beginning to load into DB ");
 	/* Core is a singleton class */
 	Core *core = Core::Core_get_instance("data/Contacts.txt");
-	assert(core!=0);
-	/* Logger is a singleton class */
-//    core->interface(0); // no contact with Core class
-//   Contact ex("yash","yash",234234,23432432,"yash","asdh","asdasd",'3');
-//   cout<< &ex;
+	assert(core);
 
 	while (1) {
-
-		//cout << "\n\n\n\033[1;31m**Possible options are: **\033[0m\n";
+		option_id = 0;
 		cout << "\n\n\n\033[1;31m**Possible options are: **\033[0m\n";
-		//std::cout<< endl << endl << " ** Possible options are: **"<<std::endl;
+
 		std::cout<<" REFRESH database   : 1,\t";
 		std::cout<<" SHOW all contacts  : 2,\t";
 		std::cout<<" ADD a contact      : 3,\t";
@@ -44,17 +38,13 @@ int main()
 		std::cout<<" Get no of contacts : 7,\t";
 		std::cout<<" Exit Application   : 8"<<std::endl;
 		std::cout<< "\t ** Enter the option ** : ";
-		int option_id =0;
+
 		while (!(cin >> option_id)) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			cout << "Invalid input.  Try again: ";
 		}
-
-
-//        std::cin>>option_id;
 		cout << endl << endl;
-
 
 		if ((option_id < 1) || (option_id > 8)) {
 			std::cout<<" Invalid option... " << std::endl;

@@ -20,7 +20,7 @@ Logger::Logger(string path)
 			if (!this->logfile.is_open()) {
 				std::cout << " Log file not opened, Check the path and permissions" << std::endl;
 			} else {
-				this->logfile << " log file opened and I am writing the first line "<<this->logpath << endl;
+				this->logfile << " Logger instatiation success!! "<<this->logpath << endl;
 			}
 		}
 	} catch (string str) {
@@ -42,14 +42,12 @@ Logger::~Logger()
 
 Logger *Logger::logger_get_instance(string logpath)
 {
-
 	if ((Logger::log_instance == 0) && (!logpath.empty())) {
 		Logger *log = new Logger(logpath);
 		Logger::log_instance++;
 		return log;
 	}
 	return NULL;
-
 }
 
 /* TODO operator <<  overloading on fstream object of the Logger class */
