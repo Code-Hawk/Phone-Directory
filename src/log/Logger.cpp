@@ -1,46 +1,40 @@
-#include "Logger.h"
 #include<iostream>
 #include<string>
+
+#include "Logger.h"
 
 /* Static variable to hold the number of instances
    at any instant, not more than one instance is allowed */
 int Logger::log_instance = 0;
 
-/* Private Constructor */
-Logger::Logger(string path)
+Logger::Logger(std::string path)
 {
-
 	this->logpath = path;
-	try {
 
+	try {
 		if (this->logpath.empty()) {
 			throw " NULL LOG FILE PATH";
 		} else {
 			this->logfile.open(this->logpath.c_str(), std::fstream::out);
 			if (!this->logfile.is_open()) {
-				std::cout << " Log file not opened, Check the path and permissions" << std::endl;
+				std::cout << " Log file not opened, Check the path and permissions" <<std::endl;
 			} else {
-				this->logfile << " Logger instatiation success!! "<<this->logpath << endl;
+				this->logfile << " Logger instatiation success!! "<<this->logpath << std::endl;
 			}
 		}
-	} catch (string str) {
-		std::cout << " Exception :" << str <<std::endl;
+	} catch (std::string str) {
+		std::cout << " Exception :" << str << std::endl;
 	}
-
 }
 
-/*Logger desstructor -- reduce the instance variable and also, close the file. */
 Logger::~Logger()
 {
 	Logger::log_instance--;
-	this->logfile << " Logger: Destructor called "<< endl;
+	this->logfile << " Logger: Destructor called "<< std::endl;
 	this->logfile.close();
 }
 
-/* Static function of the logger class which acts as an interface to
-   get the Logger object */
-
-Logger *Logger::logger_get_instance(string logpath)
+Logger *Logger::logger_get_instance(std::string logpath)
 {
 	if ((Logger::log_instance == 0) && (!logpath.empty())) {
 		Logger *log = new Logger(logpath);
@@ -50,10 +44,9 @@ Logger *Logger::logger_get_instance(string logpath)
 	return NULL;
 }
 
-/* TODO operator <<  overloading on fstream object of the Logger class */
-void Logger::log_debug(string str)
+void Logger::log_debug(std::string str)
 {
 	if (!(str.empty())) {
-		this->logfile << str <<endl;
+		this->logfile << str <<std::endl;
 	}
 }

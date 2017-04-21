@@ -1,7 +1,7 @@
 #include<iostream>
 #include<sstream>
-#include <vector>
-#include <algorithm>
+#include<vector>
+#include<algorithm>
 #include<assert.h>
 #include<limits>
 
@@ -14,7 +14,7 @@
 class Core
 {
 public:
-	static Core *Core_get_instance(string  file);
+	static Core *Core_get_instance(string file);
 	static int instance;
 	Parser *psr;
 	Verifier *vfy;

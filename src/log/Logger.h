@@ -1,7 +1,8 @@
 #ifndef _LOGGER_H
 #define _LOGGER_H
+
+#include <iostream>
 #include <fstream>
-using namespace std;
 
 /* A singleton class which logs all the debug messages to the logs.txt */
 class Logger
@@ -13,8 +14,8 @@ public:
 	void log_debug(std::string log);
 private:
 	Logger(std::string logpath);
-	string logpath;
-	fstream logfile;
+	std::string logpath;
+	std::fstream logfile;
 };
 #endif
 
