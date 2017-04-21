@@ -1,21 +1,15 @@
 #include<iostream>
 #include<sstream>
-#include "../contact/Contact.h" /* TODO remove specifically giveing the path */
+#include <vector>
+#include <algorithm>
+#include<assert.h>
+#include<limits>
+
+#include "../contact/Contact.h"
 #include "../parser/Parser.h"
 #include "../list/List.h"
 #include "../log/Logger.h"
-#include <vector>
-#include <algorithm>
 #include "../verifier/Verifier.h"
-#include<assert.h>
-#include<limits>
-using namespace std;
-
-/*
- * 1. Core class is the main Interface to the main function.
- * 2. Core Class is implemented in  Singleton Pattren.
- * 3. The Interface to the other classes is only through the interface() function
- */
 
 class Core
 {
@@ -29,6 +23,7 @@ public:
 	int no_contacts;
 	string *raw_db;
 	List *contacts_db;
+
 private:
 	int init();
 	void display_all();
@@ -43,5 +38,4 @@ private:
 	int edit_contact(string *);
 	Core(const string &filepath);
 	string filepath;
-
 };
