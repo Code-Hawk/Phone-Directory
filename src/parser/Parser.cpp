@@ -39,9 +39,9 @@ void  Parser::read_all(std::string *db)
 	if (this->file.is_open() && (!this->filepath.empty())) {
 		std::string line;
 		this->file.clear();
-		this->file.seekg(0, ios::beg);
+		this->file.seekg(0, std::ios::beg);
 		while (getline(this->file,line)) {
-			std::cout << line << endl;
+			std::cout << line << std::endl;
 			*db++ = line;
 		}
 	}
@@ -58,7 +58,7 @@ int Parser::get_no_lines()
 	}
 
 	this->file.clear();
-	this->file.seekg(0, ios::beg);
+	this->file.seekg(0, std::ios::beg);
 
 	while (getline(this->file, line)) {
 		if ((!line.empty())|| (line[0]!='#')) {

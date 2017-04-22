@@ -1,30 +1,19 @@
 #include <iostream>
-#include <string>
 #include <cstddef>
 #include <algorithm>
 #include <climits>
-#include "Verifier.h"
 #include <assert.h>
 #include <sstream>
+
+#include "Verifier.h"
 #include "../globals.h"
 #include "../log/Logger.h"
 
-using namespace std;
-
 extern Logger *DEBUGGER;
-/* destructor */
-Verifier::~Verifier()
+
+void Verifier::trim(std::string *str)
 {
-	//cout << " Verifier: Destructor called" << endl;
-}
-
-/* function to trim the strings from spaces at the beginning or
-   ending of the string */
-
-void Verifier::trim(string *str)
-{
-
-	string::size_type pos = str->find_last_not_of(' ');
+	std::string::size_type pos = str->find_last_not_of(' ');
 
 	if (std::string::npos != pos ) {
 		str->erase(pos+1,str->length()-pos);
@@ -34,11 +23,9 @@ void Verifier::trim(string *str)
 	if (pos != std::string::npos) {
 		str->erase(0,pos);
 	}
-
 }
 
-/* Function to verify the name - Names should not contain special characters */
-Boolean Verifier::name_vfy(string name)
+Boolean Verifier::name_vfy(std::string name)
 {
 	trim(&name);
 	if (name.length() == 0) {
@@ -54,8 +41,7 @@ Boolean Verifier::name_vfy(string name)
 	return TRUE;
 }
 
-/* Number verifier - only positive numbers */
-Boolean Verifier::num_vfy(string n)
+Boolean Verifier::num_vfy(std::string n)
 {
 	trim(&n);
 
@@ -74,11 +60,9 @@ Boolean Verifier::num_vfy(string n)
 	} else {
 		return TRUE;
 	}
-
 }
 
-/* Abilities cannot be negative, only positive */
-Boolean Verifier::Abil_vfy(string ab)
+Boolean Verifier::Abil_vfy(std::string ab)
 {
 	trim(&ab);
 	if (ab.length()==0) {
@@ -86,7 +70,6 @@ Boolean Verifier::Abil_vfy(string ab)
 	}
 
 	int num = std::atoi(ab.c_str());
-	//std::cout<<" Abilities is " << num  <<std::endl;
 	if (num < 0) {
 		return FALSE;
 	} else if ( num > INT_MAX) {
@@ -96,50 +79,41 @@ Boolean Verifier::Abil_vfy(string ab)
 	}
 }
 
-/* Email verification - Done at multiple levels to handle, different cases */
-Boolean Verifier::email_vfy(string Email)
+Boolean Verifier::email_vfy(std::string Email)
 {
-
 	trim(&Email);
 	if (Email.length()==0) {
 		return FALSE;
 	}
 
-	/* Email supports only . _ @ characters and numbers only */
 	size_t found = Email.find_first_not_of("_abcdefghijklmnopqrstuvwxyz1234567890@.ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
 	if (found != std::string::npos) {
 		return FALSE;
 	}
 
-	/* Count the number of @ -- only one allowed */
 	size_t at_count = std::count(Email.begin(), Email.end(), '@');
 
 	if (at_count!=1) {
 		return FALSE;
 	}
-	/* get the second part of the email - after @ character */
-	std::vector<string> token;
+
+	std::vector<std::string> token;
 	get_tokens(Email, &token,'@');
-	/* Email should not be @terminated */
 	if (token.size() < 2) {
 		return FALSE;
 	}
 
-	/* If either of the tokens are empty , then not valid */
 	if (token.at(1).empty()|| token.at(0).empty()) {
 		return FALSE;
 	}
-	/* Word after @ should not contain any special characters and numbers and Upper case letters */
 	found = token.at(1).find_first_not_of(".abcdefghijklmnopqrstuvwxyz");
 	if (found != std::string::npos) {
 		return FALSE;
 	}
 
-	/* example@ddf.dfdf.dfdf.dfdf -- not suppoerted */
 	size_t dot_cnt = std::count(token.at(1).begin(), token.at(1).end(),'.');
 
-	/* examples@.sff example@sdfdsf. are not supported */
 	if ((dot_cnt!=1) || (token.at(1)[0] == '.') || (token.at(1)[token.at(1).length()-1] == '.')) {
 		return FALSE;
 	}
@@ -148,13 +122,14 @@ Boolean Verifier::email_vfy(string Email)
 }
 
 /* Location is allowed only with alphabets, no numbers and special characters */
-Boolean Verifier::loc_vfy(string loc)
+Boolean Verifier::loc_vfy(std::string loc)
 {
 	trim(&loc);
 	if (loc.length() == 0) {
 		DEBUGGER->log_debug ("Location is empty ");
 		return FALSE;
 	}
+
 	std::size_t found;
 	/* as of now supports only alphabests */
 	found = loc.find_first_not_of("abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ ");
@@ -165,20 +140,18 @@ Boolean Verifier::loc_vfy(string loc)
 	return TRUE;
 }
 
-
 /* Main function calls the other functions on each field basis and
    returns FALSE, even if one of the entry is not valid
    Always assumes that, entry in the file are of the order --
    First Name : Last Name: Telephone : Mobile : Email ID : Location : Group : Abilities
 */
-Boolean Verifier::verify_entry(std::string line, std::vector<string> *items)
+Boolean Verifier::verify_entry(std::string line, std::vector<std::string> *items)
 {
-
 	assert(items !=0);
 	char ch =':';
 	get_tokens(line, items,ch);
 
-	if (items->size() == NO_OF_FIELDS ) {
+	if (items->size() == NO_OF_FIELDS) {
 
 		for ( int i=0; i< 8; i++) {
 			trim(&items->at(i));
@@ -194,10 +167,12 @@ Boolean Verifier::verify_entry(std::string line, std::vector<string> *items)
 			DEBUGGER->log_debug(" Numbers Verification failed");
 			return FALSE;
 		}
+
 		if (!this->email_vfy(items->at(4))) {
 			DEBUGGER->log_debug(" Email verification failed");
 			return FALSE;
 		}
+
 		if (!this->loc_vfy(items->at(5))) {
 			DEBUGGER->log_debug(" location Verifiction failed");
 			return FALSE;
@@ -207,26 +182,21 @@ Boolean Verifier::verify_entry(std::string line, std::vector<string> *items)
 			DEBUGGER->log_debug("Group Verification failed");
 			return FALSE;
 		}
+
 		if (!this->Abil_vfy(items->at(7))) {
 			DEBUGGER->log_debug("Abilities Verification failed");
 			return FALSE;
 		}
 
-	}
-
-	else {
+	} else {
 		DEBUGGER->log_debug(" Invalid number of entries ");
 		return FALSE;
 	}
 
 	return TRUE;
-
-
 }
 
-
-
-void Verifier::get_tokens (string line, std::vector<string> *items, char delim)
+void Verifier::get_tokens (std::string line, std::vector<std::string> *items, char delim)
 {
 	if (!line.empty()) {
 		std::stringstream ss(line);
@@ -238,9 +208,3 @@ void Verifier::get_tokens (string line, std::vector<string> *items, char delim)
 	}
 	return;
 }
-
-
-
-
-
-

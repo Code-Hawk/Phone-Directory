@@ -19,7 +19,6 @@
 
 class Parser
 {
-
 public:
 	Parser(std::string filepath);
 	~Parser();
@@ -30,7 +29,7 @@ public:
 
 private:
 	std::string filepath;
-	fstream file;
+	std::fstream file;
 };
 
 #endif //_PARSER_H

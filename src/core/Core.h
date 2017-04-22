@@ -1,3 +1,6 @@
+#ifndef _CORE_H
+#define _CORE_H
+
 #include<iostream>
 #include<sstream>
 #include<vector>
@@ -14,14 +17,14 @@
 class Core
 {
 public:
-	static Core *Core_get_instance(string file);
+	static Core *Core_get_instance(std::string file);
 	static int instance;
 	Parser *psr;
 	Verifier *vfy;
 	~Core();
 	int interface(int opt);
 	int no_contacts;
-	string *raw_db;
+	std::string *raw_db;
 	List *contacts_db;
 
 private:
@@ -35,7 +38,9 @@ private:
 	void sort_contacts();
 	int search_contact();
 	int stop();
-	int edit_contact(string *);
-	Core(const string &filepath);
-	string filepath;
+	int edit_contact(std::string *);
+	Core(const std::string &filepath);
+	std::string filepath;
 };
+
+#endif //_CORE_H
