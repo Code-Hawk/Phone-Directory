@@ -1,9 +1,11 @@
 #ifndef _PARSER_H
 #define _PARSER_H
-#include "../list/List.h"
+
+#include <string>
 #include <fstream>
+
+#include "../list/List.h"
 #include "../verifier/Verifier.h"
-using namespace std;
 
 /*  1.Class parser gives the functionality of reading the
 *     database contents from the file and building up a
@@ -19,24 +21,17 @@ class Parser
 {
 
 public:
-	Parser(string filepath);
+	Parser(std::string filepath);
 	~Parser();
 	int get_no_lines();
 	void read_all(std::string *db);
 	Boolean parse_entry(std::string);
-	// Boolean read_one(std::string); /* TODO */
 	std::vector<std::string> get_tokens(std::string);
-	//   Boolean read_all(); /* TODO */
-	//   Boolean read_one(string name); /* TODO */
-	//   Boolean delete_all(); /* TODO */
-	//   Boolean delete_one(string name); /* TODO */
-	//   Boolean save_all(); /* TODO */
-	//   Boolean save_one(string name); /*TODO*/
 
 private:
-	string filepath;
+	std::string filepath;
 	fstream file;
 };
 
-#endif
+#endif //_PARSER_H
 
