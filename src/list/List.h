@@ -1,10 +1,9 @@
 #ifndef _LIST_H
 #define _LIST_H
-enum Bool {N_FOUND =0, FOUND};
-#include <string>
-#include "../contact/Contact.h"
-using namespace std;
 
+#include "../contact/Contact.h"
+
+enum Bool {N_FOUND =0, FOUND};
 
 class node
 {
@@ -18,7 +17,6 @@ private:
 	node *next;
 };
 
-
 class List
 {
 public:
@@ -27,11 +25,11 @@ public:
 	void    sort();
 	node    *merge_sort(node *n);
 	node   *merge(node *, node *);
-	Contact *search(string);
+	Contact *search(std::string);
 	void    show();
 	void    show(node *n);
 	void    add(Contact *c);
-	int     del(string);
+	int     del(std::string);
 	void    append(Contact *c);
 	void    reverse();
 	int     size();

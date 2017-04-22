@@ -346,7 +346,7 @@ repeat:
 			" Select the field to edit :		\
 			\n\t SAVE ==> 0						\
 			\n\t First_Name ==> 1 				\
-			\n\t  Last Name ==> 2 				\
+			\n\t Last Name ==> 2 				\
 			\n\t Telephone ==> 3 				\
 			\n\t Mobile ==> 4					\
 			\n\t Email ==> 5					\
@@ -361,6 +361,7 @@ repeat:
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		cout << "Invalid Field is selected, Try again: ";
 	}
+
 	if (option < 0 || option > 8) {
 		std::cout << " Invalid field selected";
 		goto repeat;
